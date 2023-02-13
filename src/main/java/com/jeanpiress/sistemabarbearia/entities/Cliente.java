@@ -1,13 +1,16 @@
 package com.jeanpiress.sistemabarbearia.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -26,6 +29,9 @@ public class Cliente implements Serializable{
 	private Integer retorno;
 	private Integer pontos;
 	private String senha;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
 	
 	
 
@@ -101,6 +107,10 @@ public class Cliente implements Serializable{
 		this.senha = senha;
 	}
 
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -117,6 +127,8 @@ public class Cliente implements Serializable{
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
 
 	
 	
