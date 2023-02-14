@@ -1,49 +1,35 @@
 package com.jeanpiress.sistemabarbearia.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
-@Table(name = "tb_pedido")
-public class Pedido implements Serializable{
+@Table(name = "tb_categoria")
+public class Categoria implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String nome;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM_dd'T'HH:mm:ss'Z'", timezone = "GMT")
-	private Instant momento;
-	
-	@ManyToOne
-	@JoinColumn(name = "clinte_id")
-	private Cliente cliente;
-
-	
-	public Pedido() {
+	public Categoria() {
 		
 	}
 	
-	public Pedido(Long id, Instant momento, Cliente cliente) {
+	public Categoria(Long id, String nome) {
 		super();
 		this.id = id;
-		this.momento = momento;
-		this.cliente = cliente;
+		this.nome = nome;
 	}
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -52,20 +38,12 @@ public class Pedido implements Serializable{
 		this.id = id;
 	}
 
-	public Instant getMomento() {
-		return momento;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setMomento(Instant momento) {
-		this.momento = momento;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	@Override
@@ -81,10 +59,9 @@ public class Pedido implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pedido other = (Pedido) obj;
+		Categoria other = (Categoria) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 	
 	
 }

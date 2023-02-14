@@ -1,8 +1,8 @@
 package com.jeanpiress.sistemabarbearia.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -24,13 +26,14 @@ public class Cliente implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private Date nascimento;
+	private Instant nascimento;
 	private String celular;
 	private Integer retorno;
 	private Integer pontos;
 	private String senha;
 	
 	@OneToMany(mappedBy = "cliente")
+	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	
@@ -39,7 +42,7 @@ public class Cliente implements Serializable{
 		
 	}
 	
-	public Cliente(Long id, String nome, Date nascimento, String celular, Integer retorno, Integer pontos, String senha) {
+	public Cliente(Long id, String nome, Instant nascimento, String celular, Integer retorno, Integer pontos, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -67,11 +70,11 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 	}
 
-	public Date getNascimento() {
+	public Instant getNascimento() {
 		return nascimento;
 	}
 
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(Instant nascimento) {
 		this.nascimento = nascimento;
 	}
 
