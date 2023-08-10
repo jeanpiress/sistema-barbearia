@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jeanpiress.producao.entities.CategoriaProduto;
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
 import com.jeanpiress.producao.repository.ProdutoRepository;
@@ -15,6 +16,9 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository repository;
+	
+	@Autowired
+	CategoriaProdutoService categoriaService;
 
 	
 
@@ -47,6 +51,7 @@ public class ProdutoService {
 		base.setComissao(alterado.getComissao());
 		base.setTemEstoque(alterado.isTemEstoque());
 		base.setEstoque(alterado.getEstoque());
+		base.setCategoria(alterado.getCategoria());
 		
 	}
 	
@@ -54,6 +59,14 @@ public class ProdutoService {
 		repository.deleteById(id);
 	}
 	
+	public Produto adicionarCategoria(Long id, Long categoriaId) {
+	
+		Produto produto = buscarPorId(id);
+		CategoriaProduto categoria = categoriaService.buscarPorId(categoriaId).get();
+		produto.setCategoria(categoria);
+				
+		return repository.save(produto);
+	}
 	
 
 }

@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,12 +35,17 @@ public class Produto implements Serializable {
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>(); 
 	
+	@ManyToOne
+	@JoinColumn(name = "categoria_id")
+	@JsonIgnore
+	private CategoriaProduto categoria;
+	
 	public Produto() {
 
 	}
 
 	public Produto(Long id, String nome, Double valor, Double custo, Double comissao, boolean temEstoque,
-			Integer estoque) {
+			Integer estoque, CategoriaProduto categoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -47,6 +54,7 @@ public class Produto implements Serializable {
 		this.comissao = comissao;
 		this.temEstoque = temEstoque;
 		this.estoque = estoque;
+		this.categoria = categoria;
 	}
 
 
@@ -111,7 +119,15 @@ public class Produto implements Serializable {
 		return pedidos;
 	}
 
-	
+		
+	public CategoriaProduto getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaProduto categoria) {
+		this.categoria = categoria;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

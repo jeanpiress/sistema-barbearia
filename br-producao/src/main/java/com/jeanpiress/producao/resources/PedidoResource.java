@@ -57,11 +57,7 @@ public class PedidoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{id}/pruduto/{produtoId}")
-	ResponseEntity<Pedido> adicionarProduto(@PathVariable Long id, @PathVariable Long produtoId){
-		Pedido pedido = service.adicionarProduto(id, produtoId);
-		return ResponseEntity.ok(pedido);
-	}
+	
 	
 	
 	
