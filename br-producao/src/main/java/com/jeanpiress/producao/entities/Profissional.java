@@ -17,38 +17,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_profissionais")
-public class Profissional implements Serializable{
+public class Profissional implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
 	private String celular;
 	private Instant nascimento;
 	private Double salarioFixo;
-	
+
 	@OneToMany(mappedBy = "profissional")
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
-	
+
+	private Endereco endereco;
+
 	public Profissional() {
-		
+
 	}
-		
-	public Profissional(Long id, String nome, String celular, Instant nascimento, Double salarioFixo) {
+
+	public Profissional(Long id, String nome, String celular, Instant nascimento, Double salarioFixo,
+			Endereco endereco) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.celular = celular;
 		this.nascimento = nascimento;
 		this.salarioFixo = salarioFixo;
-		
+		this.endereco = endereco;
+
 	}
-
-
-
 
 	public Long getId() {
 		return id;
@@ -57,7 +58,7 @@ public class Profissional implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -89,14 +90,22 @@ public class Profissional implements Serializable{
 	public void setSalarioFixo(Double salarioFixo) {
 		this.salarioFixo = salarioFixo;
 	}
-	
-	
+
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+	
+	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override
@@ -115,10 +124,5 @@ public class Profissional implements Serializable{
 		Profissional other = (Profissional) obj;
 		return Objects.equals(id, other.id);
 	}
-
-
-	
-	
-	
 
 }

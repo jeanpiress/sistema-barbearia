@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,9 @@ public class Cliente implements Serializable{
 	private Instant previsaoRetorno;
 	private String observacao;
 	
+	@Embedded
+	private Endereco endereco;
+	
 	@OneToMany(mappedBy = "cliente")
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
@@ -41,7 +45,7 @@ public class Cliente implements Serializable{
 	}
 	
 	public Cliente(Long id, String nome, String celular, Instant nascimento, Instant ultimaVisita, Integer pontos,
-			Instant previsaoRetorno, String observacao) {
+			Instant previsaoRetorno, String observacao, Endereco endereco) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -51,6 +55,7 @@ public class Cliente implements Serializable{
 		this.pontos = pontos;
 		this.previsaoRetorno = previsaoRetorno;
 		this.observacao = observacao;
+		this.endereco = endereco;
 	}
 
 	
@@ -125,6 +130,15 @@ public class Cliente implements Serializable{
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+	
+	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

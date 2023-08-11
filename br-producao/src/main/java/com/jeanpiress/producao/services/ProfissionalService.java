@@ -49,6 +49,7 @@ public class ProfissionalService {
 		base.setCelular(alterado.getCelular());
 		base.setNascimento(alterado.getNascimento());
 		base.setSalarioFixo(alterado.getSalarioFixo());
+		base.setEndereco(alterado.getEndereco());
 		
 	}
 	

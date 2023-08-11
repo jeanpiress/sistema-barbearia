@@ -53,6 +53,7 @@ public class ClienteService {
 		base.setPontos(alterado.getPontos());
 		base.setPrevisaoRetorno(alterado.getPrevisaoRetorno());
 		base.setObservacao(alterado.getObservacao());
+		base.setEndereco(alterado.getEndereco());
 		
 	}
 	
