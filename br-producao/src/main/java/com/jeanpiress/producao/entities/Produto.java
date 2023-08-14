@@ -33,13 +33,13 @@ public class Produto implements Serializable {
 
 	@ManyToMany(mappedBy = "produtos")
 	@JsonIgnore
-	private List<Pedido> pedidos = new ArrayList<>(); 
-	
+	private List<Pedido> pedidos = new ArrayList<>();
+
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	@JsonIgnore
 	private CategoriaProduto categoria;
-	
+
 	public Produto() {
 
 	}
@@ -56,7 +56,6 @@ public class Produto implements Serializable {
 		this.estoque = estoque;
 		this.categoria = categoria;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -114,12 +113,10 @@ public class Produto implements Serializable {
 		this.estoque = estoque;
 	}
 
-	
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
-		
 	public CategoriaProduto getCategoria() {
 		return categoria;
 	}
@@ -127,6 +124,8 @@ public class Produto implements Serializable {
 	public void setCategoria(CategoriaProduto categoria) {
 		this.categoria = categoria;
 	}
+
+	
 
 	@Override
 	public int hashCode() {

@@ -18,8 +18,8 @@ public class PedidoService {
 	
 	@Autowired
 	ProdutoService produtoService;
-
 	
+		
 	public List<Pedido> buscar() {
 		List<Pedido> pedidos = repository.findAll();
 		return pedidos;
@@ -61,7 +61,7 @@ public class PedidoService {
 	
 	public Pedido adicionarProduto(Long id, Long produtoId) {
 		Pedido pedido = buscarPorId(id).get();
-		Produto produto = produtoService.buscarPorId(produtoId);
+		Produto produto = produtoService.buscarPorId(produtoId).get();
 		List<Produto> produtos = pedido.getProdutos();
 		produtos.add(produto);
 		pedido.setProdutos(produtos);
@@ -70,12 +70,29 @@ public class PedidoService {
 		return repository.save(pedido);
 	}
 	
-	public Pedido atulaizarValor(Pedido pedido) {
+	
+	public Pedido removerProduto(Long id, Long produtoId) {
+		Pedido pedido = buscarPorId(id).get();
+		Produto produto = produtoService.buscarPorId(produtoId).get();
 		List<Produto> produtos = pedido.getProdutos();
-	    Double total = pedido.total(produtos);
+		produtos.remove(produto);
+		pedido.setProdutos(produtos);
+		atulaizarValor(pedido);	
+		
+		return repository.save(pedido);
+	}
+	
+	public Pedido atulaizarValor(Pedido pedido) {
+		Double total = pedido.total();
 	    pedido.setValorTotal(total);
 	    
 	    return pedido;
+	}
+	
+	public Double comissao(Long id) {
+		Pedido pedido = buscarPorId(id).get();
+		Double comissao = pedido.comissaoPaga();
+		return comissao;
 	}
 
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanpiress.producao.entities.Pedido;
-import com.jeanpiress.producao.entities.Produto;
 import com.jeanpiress.producao.services.PedidoService;
 
 @RestController
@@ -55,6 +54,24 @@ public class PedidoResource {
 	ResponseEntity<Void> deletar (@PathVariable Long id){
 		service.deletar(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping(value = "/{id}/produto/{produtoId}/add")
+	ResponseEntity<Pedido> adicionarProduto(@PathVariable Long id, @PathVariable Long produtoId){
+		Pedido pedido = service.adicionarProduto(id, produtoId);
+		return ResponseEntity.ok(pedido);
+	}
+	
+	@PutMapping(value = "/{id}/produto/{produtoId}/remove")
+	ResponseEntity<Pedido> removerProduto(@PathVariable Long id, @PathVariable Long produtoId){
+		Pedido pedido = service.removerProduto(id, produtoId);
+		return ResponseEntity.ok(pedido);
+	}
+	
+	@GetMapping(value = "/{id}/comissao")
+	ResponseEntity<Double> verificarComissao(@PathVariable Long id){
+		Double comissao = service.comissao(id);
+		return ResponseEntity.ok(comissao);
 	}
 	
 	

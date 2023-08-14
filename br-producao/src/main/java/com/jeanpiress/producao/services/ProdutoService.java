@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeanpiress.producao.entities.CategoriaProduto;
-import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
 import com.jeanpiress.producao.repository.ProdutoRepository;
 
@@ -27,9 +26,9 @@ public class ProdutoService {
 		return pedidos;
 	}
 	
-	public Produto buscarPorId(Long id) {
+	public Optional<Produto> buscarPorId(Long id) {
 		Optional<Produto> produto = repository.findById(id);
-		return produto.get();
+		return produto;
 	}
 
 	public Produto adicionar(Produto pedido) {
@@ -61,7 +60,7 @@ public class ProdutoService {
 	
 	public Produto adicionarCategoria(Long id, Long categoriaId) {
 	
-		Produto produto = buscarPorId(id);
+		Produto produto = buscarPorId(id).get();
 		CategoriaProduto categoria = categoriaService.buscarPorId(categoriaId).get();
 		produto.setCategoria(categoria);
 				

@@ -1,6 +1,7 @@
 package com.jeanpiress.producao.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,8 @@ public class ProdutoResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Produto> produtoPorId(@PathVariable Long id){
-		Produto produto = service.buscarPorId(id);
+	public ResponseEntity<Optional<Produto>> produtoPorId(@PathVariable Long id){
+		Optional<Produto> produto = service.buscarPorId(id);
 		return ResponseEntity.ok(produto);
 	}
 	
