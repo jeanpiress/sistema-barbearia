@@ -132,14 +132,7 @@ public class Pedido implements Serializable {
 		return comissao;
 	}
 	
-	public Double total() {
-		Double total = 0.0;
-		for (Produto produto : produtos) {
-			total += produto.getValor();
-		}
-		return total;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

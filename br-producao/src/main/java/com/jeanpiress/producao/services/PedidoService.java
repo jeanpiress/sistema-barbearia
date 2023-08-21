@@ -83,15 +83,27 @@ public class PedidoService {
 	}
 	
 	public Pedido atulaizarValor(Pedido pedido) {
-		Double total = pedido.total();
-	    pedido.setValorTotal(total);
+		List<Produto> produtos = pedido.getProdutos();
+		Double total = 0.0;
+		for (Produto produto : produtos) {
+			total += produto.getValor();
+		}
+		pedido.setValorTotal(total);
 	    
 	    return pedido;
 	}
 	
-	public Double comissao(Long id) {
+	public Double comissaoPaga(Long id) {
 		Pedido pedido = buscarPorId(id).get();
-		Double comissao = pedido.comissaoPaga();
+		List<Produto> produtos = pedido.getProdutos();
+		Double comissao = 0.0;
+		for (Produto produto : produtos) {
+			Double valor = produto.getValor();
+			Double porcentagemComissao = produto.getComissao();
+			Double comissaoProduto = valor*porcentagemComissao/100;
+			comissao += comissaoProduto;
+		}
+		
 		return comissao;
 	}
 

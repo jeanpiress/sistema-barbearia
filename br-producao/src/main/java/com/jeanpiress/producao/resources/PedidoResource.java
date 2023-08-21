@@ -70,7 +70,7 @@ public class PedidoResource {
 	
 	@GetMapping(value = "/{id}/comissao")
 	ResponseEntity<Double> verificarComissao(@PathVariable Long id){
-		Double comissao = service.comissao(id);
+		Double comissao = service.comissaoPaga(id);
 		return ResponseEntity.ok(comissao);
 	}
 	

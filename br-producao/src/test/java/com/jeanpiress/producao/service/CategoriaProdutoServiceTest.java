@@ -1,4 +1,4 @@
-package com.jeanpiress.producao;
+package com.jeanpiress.producao.service;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -65,11 +65,11 @@ public class CategoriaProdutoServiceTest {
 
 	@Test
 	public void debeBuscarCategoriaPorId() {
-		Mockito.when(repository.findById(1L)).thenReturn(Optional.of(categoriaProduto));
+		Mockito.when(repository.findById(categoriaProduto.getId())).thenReturn(Optional.of(categoriaProduto));
 		
 		Optional<CategoriaProduto> categoriaOptional = service.buscarPorId(categoriaProduto.getId());
 
-		Assertions.assertEquals(categoriaOptional.get().getNome(), "produtos");
+		Assertions.assertEquals(categoriaOptional.get(), categoriaProduto);
 		verify(repository).findById(categoriaProduto.getId());
 		verifyNoMoreInteractions(repository);
 
@@ -89,7 +89,7 @@ public class CategoriaProdutoServiceTest {
 	@Test
 	public void deveAlterrarUmaCategoria() {
 		Mockito.when(repository.save(categoriaProduto)).thenReturn(categoriaProduto);
-		Mockito.when(repository.getReferenceById(1L)).thenReturn(categoriaProduto);
+		Mockito.when(repository.getReferenceById(categoriaProduto.getId())).thenReturn(categoriaProduto);
 		
 		CategoriaProduto categoriaProduto = service.alterar(1L, categoriaAlterada);
 
