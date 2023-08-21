@@ -31,7 +31,7 @@ public class ProdutoService {
 		return produto;
 	}
 
-	public Produto adicionar(Produto pedido) {
+	public Produto cadastrar(Produto pedido) {
 		return repository.save(pedido);
 	}
 	

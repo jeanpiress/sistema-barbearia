@@ -39,7 +39,7 @@ public class ProdutoResource {
 	
 	@PostMapping
 	public ResponseEntity<Produto> salvar(@RequestBody Produto obj){
-		Produto produto = service.adicionar(obj);
+		Produto produto = service.cadastrar(obj);
 		return ResponseEntity.ok(produto); 
 	}
 	
