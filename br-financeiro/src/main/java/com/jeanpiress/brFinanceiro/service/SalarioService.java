@@ -17,6 +17,6 @@ public class SalarioService {
 		Profissional profissional = profissionalFeignClient.buscarPorId(profissionalId).getBody().get();
 		
 		
-		return new Salario(profissional.getNome(), 1000.0, 4000.0);
+		return new Salario(profissional.getNome(), profissional.getSalarioFixo(), null);
 	}
 }
