@@ -56,7 +56,7 @@ public class ProdutoResource {
 	}
 	
 	@PutMapping(value = "/{id}/categoria/{categoriaId}")
-	ResponseEntity<Produto> adicionarProduto(@PathVariable Long id, @PathVariable Long categoriaId){
+	ResponseEntity<Produto> adicionarCategoria(@PathVariable Long id, @PathVariable Long categoriaId){
 		Produto produto = service.adicionarCategoria(id, categoriaId);
 		return ResponseEntity.ok(produto);
 	}
