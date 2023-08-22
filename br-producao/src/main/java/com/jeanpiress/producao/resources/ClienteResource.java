@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanpiress.producao.entities.Cliente;
-import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.services.ClienteService;
 
 @RestController
