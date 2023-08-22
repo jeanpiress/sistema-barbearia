@@ -1,6 +1,7 @@
 package com.jeanpiress.producao.resources;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -102,6 +103,20 @@ public class ClienteResourceTest {
 
 	}
 	
+	
+	@Test
+	public void deveDarErroAoCadastrarSemInformarOCliente() throws Exception {
+				
+		mockMvc.perform(post("/clientes")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
 	@Test
 	public void deveAlterarUmClienteInformandoId() throws Exception {
 		Mockito.when(service.alterar(1L, cliente)).thenReturn(cliente);
@@ -121,6 +136,35 @@ public class ClienteResourceTest {
 	}
 	
 	@Test
+	public void deveDarErroAoAlterarUmClienteSemPassarOId() throws Exception {
+		String clienteJson = new ObjectMapper().writeValueAsString(cliente);
+		
+		mockMvc.perform(put("/clientes/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(clienteJson))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
+	public void deveDarErroAoAlterarUmClienteSemPassarOClienteAlterado() throws Exception {
+		
+		
+		mockMvc.perform(put("/clientes/1")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
 	public void deveDeletarUmClienteInformandoId() throws Exception {
 		
 		mockMvc.perform(delete("/clientes/1"))
@@ -129,6 +173,18 @@ public class ClienteResourceTest {
 		
 		verify(service).deletar(1L);
 		verifyNoMoreInteractions(service);
+		
+
+	}
+	
+	@Test
+	public void deveDarErroAoDeletarUmClienteSemPassarOId() throws Exception {
+		
+		mockMvc.perform(delete("/clientes/"))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
 		
 
 	}

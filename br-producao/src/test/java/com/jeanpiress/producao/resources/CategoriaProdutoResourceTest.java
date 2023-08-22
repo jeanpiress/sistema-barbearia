@@ -1,6 +1,7 @@
 package com.jeanpiress.producao.resources;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -66,7 +67,7 @@ public class CategoriaProdutoResourceTest {
 	}
 	
 	@Test
-	public void deveBuscarCategoriaPorIdEmJson() throws Exception {
+	public void deveBuscarCategoriaPorId() throws Exception {
 		Mockito.when(service.buscarPorId(1L)).thenReturn(Optional.ofNullable(categoria));
 
 		mockMvc.perform(get("/categorias/1")
@@ -100,6 +101,19 @@ public class CategoriaProdutoResourceTest {
 	}
 	
 	@Test
+	public void deveDarErroAoCadastrarCategoriaSemPassarACategoria() throws Exception {
+			
+		mockMvc.perform(post("/categorias")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
 	public void deveAlterarUmaCategoriaInformandoId() throws Exception {
 		Mockito.when(service.alterar(1L, categoria)).thenReturn(categoria);
 		
@@ -118,6 +132,34 @@ public class CategoriaProdutoResourceTest {
 	}
 	
 	@Test
+	public void deveDarErroAoAlterarUmaCategoriaSemPassarId() throws Exception {
+		String categoriaJson = new ObjectMapper().writeValueAsString(categoria);
+		
+		mockMvc.perform(put("/categorias/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(categoriaJson))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
+	public void deveDarErroAoAlterarUmaCategoriaSemPassarCategoriaAlterada() throws Exception {
+			
+		mockMvc.perform(put("/categorias/1")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
 	public void deveDeletarUmaCategoriaInformandoId() throws Exception {
 		
 		mockMvc.perform(delete("/categorias/1"))
@@ -126,6 +168,18 @@ public class CategoriaProdutoResourceTest {
 		
 		verify(service).deletar(1L);
 		verifyNoMoreInteractions(service);
+		
+
+	}
+	
+	@Test
+	public void deveDarErroAoDeletarUmaCategoriaSemPassarId() throws Exception {
+		
+		mockMvc.perform(delete("/categorias/"))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andReturn();
+		
+		verifyNoInteractions(service);
 		
 
 	}
