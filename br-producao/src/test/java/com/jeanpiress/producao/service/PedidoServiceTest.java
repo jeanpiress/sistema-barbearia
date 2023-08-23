@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
+import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 import com.jeanpiress.producao.repository.PedidoRepository;
 import com.jeanpiress.producao.services.PedidoService;
 import com.jeanpiress.producao.services.ProdutoService;
@@ -51,8 +52,8 @@ public class PedidoServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		pedido = new Pedido(1L, null, "Corte", null, null, produtos, 0.0);
-		pedidoAlterado = new Pedido(1L, null, "Corte e barba", null, null, produtos, null);
+		pedido = new Pedido(1L, null, "Corte", null, null, produtos, 0.0, PagamentoStatus.PAGO);
+		pedidoAlterado = new Pedido(1L, null, "Corte e barba", null, null, produtos, null, PagamentoStatus.PAGO);
 		corte = new Produto(1L, "corte", 45.0, null, 50.0, false, null, null);
 		barba = new Produto(2L, "barba", 45.0, null, 50.0, false, null, null);
 				
@@ -176,7 +177,7 @@ public class PedidoServiceTest {
 	public void deveInformarComissao() {
 		Mockito.when(repository.findById(1L)).thenReturn(Optional.of(pedido));
 		
-		Double comissao = service.comissaoPaga(1L);
+		Double comissao = service.comissaoPagaPorId(1L);
 		
 		Assertions.assertEquals(comissao, 22.5);
 		

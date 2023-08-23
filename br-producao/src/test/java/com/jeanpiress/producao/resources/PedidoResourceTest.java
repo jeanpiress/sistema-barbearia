@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
+import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 import com.jeanpiress.producao.services.PedidoService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,9 +59,9 @@ public class PedidoResourceTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		
-		pedido = new Pedido(1L, null, "corte", null, null, null, null);
+		pedido = new Pedido(1L, null, "corte", null, null, null, null, PagamentoStatus.PAGO);
 		
-		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null);
+		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, PagamentoStatus.PAGO);
 		
 		produtos.add(produto);
 		
@@ -266,14 +267,14 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveInformarAComissaoGeradaPelosPedidos() throws Exception {
-		Mockito.when(service.comissaoPaga(1L)).thenReturn(22.5);
+		Mockito.when(service.comissaoPagaPorId(1L)).thenReturn(22.5);
 		
 				mockMvc.perform(get("/pedidos/1/comissao")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andReturn();
 		
-		verify(service).comissaoPaga(1L);
+		verify(service).comissaoPagaPorId(1L);
 		verifyNoMoreInteractions(service);
 		
 
@@ -281,7 +282,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveDarErroAoInformarAComissaoSeNaoInformarOIdDoPedido() throws Exception {
-		Mockito.when(service.comissaoPaga(1L)).thenReturn(22.5);
+		Mockito.when(service.comissaoPagaPorId(1L)).thenReturn(22.5);
 		
 				mockMvc.perform(get("/pedidos/comissao")
 				.contentType(MediaType.APPLICATION_JSON))

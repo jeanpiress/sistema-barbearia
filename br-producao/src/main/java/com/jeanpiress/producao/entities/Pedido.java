@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.jeanpiress.producao.entities.enums.PagamentoStatus;
+
 @Entity
 @Table(name = "tb_pedidos")
 public class Pedido implements Serializable {
@@ -46,13 +48,15 @@ public class Pedido implements Serializable {
 	private List<Produto> produtos = new ArrayList<>();
 
 	private Double valorTotal;
+	
+	private Integer pagamentoStatus;
 
 	public Pedido() {
 
 	}
 
 	public Pedido(Long id, Instant horario, String descricao, Cliente cliente, Profissional profissional,
-			List<Produto> produtos, Double valorTotal) {
+			List<Produto> produtos, Double valorTotal, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
 		this.horario = horario;
@@ -61,6 +65,7 @@ public class Pedido implements Serializable {
 		this.profissional = profissional;
 		this.produtos = produtos;
 		this.valorTotal = valorTotal;
+		setPagamentoStatus(pagamentoStatus);
 	}
 
 	public Long getId() {
@@ -119,20 +124,17 @@ public class Pedido implements Serializable {
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
-		
-	public Double comissaoPaga() {
-		Double comissao = 0.0;
-		for (Produto produto : produtos) {
-			Double valor = produto.getValor();
-			Double porcentagemComissao = produto.getComissao();
-			Double comissaoProduto = valor*porcentagemComissao/100;
-			comissao += comissaoProduto;
-		}
-		
-		return comissao;
+	
+	public PagamentoStatus getPagamentoStatus() {
+		return PagamentoStatus.valueOf(pagamentoStatus) ;
 	}
-	
-	
+
+	public void setPagamentoStatus(PagamentoStatus pagamentoStatus) {
+		if(pagamentoStatus != null) {
+		this.pagamentoStatus = pagamentoStatus.getCode();
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
