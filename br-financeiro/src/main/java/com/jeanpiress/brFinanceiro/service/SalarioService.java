@@ -23,9 +23,6 @@ public class SalarioService {
 		
 		Double comissao = pedidoFeignClient.verificarComissaoPorPeriodo(profissionalId, inicio, fim).getBody();
 		
-		//Instant dataInicio = Instant.parse(inicio + "T00:00:00Z");
-		//Instant dataFim = Instant.parse(inicio + "T23:59:59Z");
-		
 		return new Salario(profissional.getNome(), profissional.getSalarioFixo(), comissao);
 	}
 }
