@@ -1,4 +1,4 @@
-package com.jeanpiress.brFinanceiro.entity;
+package com.jeanpiress.brFinanceiro.entities;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 
 @Entity
 @Table(name = "tb_gastosFixos")
@@ -19,6 +21,8 @@ public class GastoFixo {
 	
 	private String nome;
 	
+	private Double valor;
+	
 	private Credor credor;
 	
 	private String motivo;
@@ -26,19 +30,23 @@ public class GastoFixo {
 	private Instant dataVencimento;
 	
 	private boolean ativo;
+	
+	private Integer pagamentoStatus;
 
 	public GastoFixo() {
 		
 	}
 	
-	public GastoFixo(Long id, String nome, Credor credor, String motivo, Instant dataVencimento, boolean ativo) {
+	public GastoFixo(Long id, String nome, Double valor, Credor credor, String motivo, Instant dataVencimento, boolean ativo, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.valor = valor;
 		this.credor = credor;
 		this.motivo = motivo;
 		this.dataVencimento = dataVencimento;
 		this.ativo = ativo;
+		setPagamentoStatus(pagamentoStatus);
 	}
 
 	public Long getId() {
@@ -55,6 +63,15 @@ public class GastoFixo {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 
 	public Credor getCredor() {
@@ -87,6 +104,16 @@ public class GastoFixo {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	public PagamentoStatus getPagamentoStatus() {
+		return PagamentoStatus.valueOf(pagamentoStatus) ;
+	}
+
+	public void setPagamentoStatus(PagamentoStatus pagamentoStatus) {
+		if(pagamentoStatus != null) {
+		this.pagamentoStatus = pagamentoStatus.getCode();
+		}
 	}
 
 	@Override

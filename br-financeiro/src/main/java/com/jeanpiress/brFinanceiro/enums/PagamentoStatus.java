@@ -1,4 +1,4 @@
-package com.jeanpiress.producao.entities.enums;
+package com.jeanpiress.brFinanceiro.enums;
 
 public enum PagamentoStatus {
 

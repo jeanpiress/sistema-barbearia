@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeanpiress.brFinanceiro.entity.Salario;
-import com.jeanpiress.brFinanceiro.service.SalarioService;
+import com.jeanpiress.brFinanceiro.entities.Salario;
+import com.jeanpiress.brFinanceiro.services.SalarioService;
 
 
 @RestController

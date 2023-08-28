@@ -1,4 +1,4 @@
-package com.jeanpiress.brFinanceiro.entity;
+package com.jeanpiress.brFinanceiro.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 
 @Entity
 @Table(name = "tb_gastosExtraordinarios")
@@ -24,18 +26,21 @@ public class GastoExtraordinario implements Serializable{
 	private Double valor;
 	
 	private Instant dataPagamento;
+	
+	private Integer pagamentoStatus;
 
 	
 	public GastoExtraordinario() {
 		
 	}
 	
-	public GastoExtraordinario(Long id, Credor credor, Double valor, Instant dataPagamento) {
+	public GastoExtraordinario(Long id, Credor credor, Double valor, Instant dataPagamento, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
 		this.credor = credor;
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
+		setPagamentoStatus(pagamentoStatus);
 	}
 
 	public Long getId() {
@@ -68,6 +73,16 @@ public class GastoExtraordinario implements Serializable{
 
 	public void setDataPagamento(Instant dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}
+	
+	public PagamentoStatus getPagamentoStatus() {
+		return PagamentoStatus.valueOf(pagamentoStatus) ;
+	}
+
+	public void setPagamentoStatus(PagamentoStatus pagamentoStatus) {
+		if(pagamentoStatus != null) {
+		this.pagamentoStatus = pagamentoStatus.getCode();
+		}
 	}
 
 	@Override

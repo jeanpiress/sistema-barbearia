@@ -1,4 +1,4 @@
-package com.jeanpiress.brFinanceiro.entity;
+package com.jeanpiress.brFinanceiro.entities;
 
 import java.util.ArrayList;
 import java.util.List;

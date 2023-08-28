@@ -1,10 +1,10 @@
-package com.jeanpiress.brFinanceiro.service;
+package com.jeanpiress.brFinanceiro.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jeanpiress.brFinanceiro.entity.Profissional;
-import com.jeanpiress.brFinanceiro.entity.Salario;
+import com.jeanpiress.brFinanceiro.entities.Profissional;
+import com.jeanpiress.brFinanceiro.entities.Salario;
 import com.jeanpiress.brFinanceiro.feignclients.PedidoFeignClient;
 import com.jeanpiress.brFinanceiro.feignclients.ProfissionalFeignClient;
 

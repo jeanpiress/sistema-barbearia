@@ -17,10 +17,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.jeanpiress.brFinanceiro.entity.Profissional;
-import com.jeanpiress.brFinanceiro.entity.Salario;
+import com.jeanpiress.brFinanceiro.entities.Profissional;
+import com.jeanpiress.brFinanceiro.entities.Salario;
 import com.jeanpiress.brFinanceiro.feignclients.PedidoFeignClient;
 import com.jeanpiress.brFinanceiro.feignclients.ProfissionalFeignClient;
+import com.jeanpiress.brFinanceiro.services.SalarioService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SalarioServiceTest {

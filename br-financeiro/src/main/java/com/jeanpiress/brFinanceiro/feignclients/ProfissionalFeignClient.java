@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.jeanpiress.brFinanceiro.entity.Profissional;
+import com.jeanpiress.brFinanceiro.entities.Profissional;
 
 @Component
 @FeignClient(name = "profissionaisFeing", url = "localhost:8001", path = "/profissionais")
