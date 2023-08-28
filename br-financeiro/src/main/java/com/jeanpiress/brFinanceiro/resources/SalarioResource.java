@@ -18,9 +18,9 @@ public class SalarioResource {
 	@Autowired
 	SalarioService service;
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Salario> salario(@PathVariable Long id){
-		Salario salario = service.getSalario(id);
+	@GetMapping(value = "/profissional/{id}/inicio/{inicio}/fim/{fim}")
+	public ResponseEntity<Salario> salario(@PathVariable Long id, @PathVariable String inicio, @PathVariable String fim){
+		Salario salario = service.getSalario(id, inicio, fim);
 		return ResponseEntity.ok(salario);
 	}
 }

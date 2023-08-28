@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.jeanpiress.brFinanceiro.entity.Profissional;
 import com.jeanpiress.brFinanceiro.entity.Salario;
+import com.jeanpiress.brFinanceiro.feignclients.PedidoFeignClient;
 import com.jeanpiress.brFinanceiro.feignclients.ProfissionalFeignClient;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,11 +32,20 @@ public class SalarioServiceTest {
 	@Mock
 	ProfissionalFeignClient profissionalFeignClient;
 	
+	@Mock
+	PedidoFeignClient pedidoFeignClient;
+	
 	Salario salarioJean;
 	
 	Profissional profissional;
 	
 	ResponseEntity<Optional<Profissional>> profissionalResponse;
+	
+	ResponseEntity<Double> comissaoResponse;
+	
+	String inicio;
+	
+	String fim;
 	
 	@BeforeEach
 	public void setup() {
@@ -43,23 +53,35 @@ public class SalarioServiceTest {
 		
 		profissional = new Profissional("Jean", "(34)999708382", null, 0.0);
 		
-		salarioJean = new Salario("Jean", 0.0, null);
+		salarioJean = new Salario("Jean", 0.0, 200.0);
 		
 		profissionalResponse = ResponseEntity.status(HttpStatus.OK).body(Optional.of(profissional));
+		
+		comissaoResponse = ResponseEntity.status(HttpStatus.OK).body(200.0);
+		
+		inicio = "2023-08-27";
+		
+		fim = "2023-08-28";
 	}
 	
 	
 	@Test
 	public void deveBuscarSalarioDoProfissionalPorId() {
 		Mockito.when(profissionalFeignClient.buscarPorId(1L)).thenReturn(profissionalResponse);
+		Mockito.when(pedidoFeignClient.verificarComissaoPorPeriodo(1L, inicio , fim )).thenReturn(comissaoResponse);
+		
 		
                
-       Salario salario = service.getSalario(1L);
+       Salario salario = service.getSalario(1L, inicio, fim);
        
        Assertions.assertEquals(salario.getNomeProfissional(), salarioJean.getNomeProfissional());
+       Assertions.assertEquals(salario.getSalarioFixo(), salarioJean.getSalarioFixo());
+       Assertions.assertEquals(salario.getComissao(), salarioJean.getComissao());
        
        verify(profissionalFeignClient).buscarPorId(1L);
-       verifyNoMoreInteractions(profissionalFeignClient);
+       verify(pedidoFeignClient).verificarComissaoPorPeriodo(1L, inicio, fim);
+       verifyNoMoreInteractions(profissionalFeignClient, pedidoFeignClient);
+       
 
        
 	}

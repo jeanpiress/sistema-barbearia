@@ -101,7 +101,7 @@ public class PedidoService {
 
 		return comissao;
 	}
-	
+
 	public Double comissaoPagaPorPedido(Pedido pedido) {
 		List<Produto> produtos = pedido.getProdutos();
 		Double comissao = 0.0;
@@ -115,21 +115,29 @@ public class PedidoService {
 		return comissao;
 	}
 
-	public Double ComissaoPagaPorPeriodo(Instant inicio, Instant fim) {
+	public Double comissaoPagaPorPeriodo(Long profissionalId, String inicio, String fim) {
+
+		Instant dataInicio = Instant.parse(inicio + "T00:00:00Z");
+		Instant dataFim = Instant.parse(fim + "T23:59:59Z");
+		
 		List<Pedido> todosPedidos = buscar();
 		List<Pedido> pedidosSelecionados = new ArrayList<>();
 		Double comissao = 0.0;
 
-		//Buscando todos os pedidos que estão pagos e dentro da data selecionada 
+		// Buscando todos os pedidos que estão pagos e dentro da data selecionada
 		for (Pedido pedidoGeral : todosPedidos) {
-			if (pedidoGeral.getHorario().isAfter(inicio) && pedidoGeral.getHorario().isBefore(fim)
+			if (pedidoGeral.getProfissional().getId() == profissionalId 
+					&& pedidoGeral.getHorario().isAfter(dataInicio)
+					&& pedidoGeral.getHorario().isBefore(dataFim)
 					&& pedidoGeral.getPagamentoStatus() == PagamentoStatus.PAGO) {
+				
 				pedidosSelecionados.add(pedidoGeral);
 			}
-			
-		for(Pedido pedidoTratado: pedidosSelecionados) {
-			comissao += comissaoPagaPorPedido(pedidoTratado);
+
 		}
+		
+		for (Pedido pedidoTratado : pedidosSelecionados) {
+			comissao += comissaoPagaPorPedido(pedidoTratado);
 		}
 
 		return comissao;

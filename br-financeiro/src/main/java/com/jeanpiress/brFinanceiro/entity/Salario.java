@@ -1,15 +1,11 @@
 package com.jeanpiress.brFinanceiro.entity;
 
-import java.util.List;
-
 public class Salario {
 	
 	private String nomeProfissional;
 	
 	private Double salarioFixo;
 	private Double comissao;
-	
-	private List<Pedido> pedidos;
 	
 	public Salario() {
 		
@@ -49,13 +45,4 @@ public class Salario {
 	}
 	
 		
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
-	
 }

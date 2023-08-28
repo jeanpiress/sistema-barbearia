@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.jeanpiress.producao.entities.enums.FormaPagamento;
 import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 
 @Entity
@@ -50,13 +51,15 @@ public class Pedido implements Serializable {
 	private Double valorTotal;
 	
 	private Integer pagamentoStatus;
+	
+	private Integer formaPagamento;
 
 	public Pedido() {
 
 	}
 
 	public Pedido(Long id, Instant horario, String descricao, Cliente cliente, Profissional profissional,
-			List<Produto> produtos, Double valorTotal, PagamentoStatus pagamentoStatus) {
+			List<Produto> produtos, Double valorTotal, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento) {
 		super();
 		this.id = id;
 		this.horario = horario;
@@ -66,6 +69,7 @@ public class Pedido implements Serializable {
 		this.produtos = produtos;
 		this.valorTotal = valorTotal;
 		setPagamentoStatus(pagamentoStatus);
+		setFormaPagamento(formaPagamento);
 	}
 
 	public Long getId() {
@@ -132,6 +136,16 @@ public class Pedido implements Serializable {
 	public void setPagamentoStatus(PagamentoStatus pagamentoStatus) {
 		if(pagamentoStatus != null) {
 		this.pagamentoStatus = pagamentoStatus.getCode();
+		}
+	}
+	
+	public FormaPagamento getFormaPagamento() {
+		return FormaPagamento.valueOf(formaPagamento) ;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		if(formaPagamento != null) {
+		this.formaPagamento = formaPagamento.getCode();
 		}
 	}
 

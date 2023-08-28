@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.jeanpiress.brFinanceiro.entity.Profissional;
 import com.jeanpiress.brFinanceiro.entity.Salario;
+import com.jeanpiress.brFinanceiro.feignclients.PedidoFeignClient;
 import com.jeanpiress.brFinanceiro.feignclients.ProfissionalFeignClient;
 
 @Service
@@ -12,11 +13,19 @@ public class SalarioService {
 	
 	@Autowired
 	private ProfissionalFeignClient profissionalFeignClient;
+	
+	@Autowired
+	private PedidoFeignClient pedidoFeignClient;
+	
 
-	public Salario getSalario(Long profissionalId) {
+	public Salario getSalario(Long profissionalId, String inicio, String fim) {
 		Profissional profissional = profissionalFeignClient.buscarPorId(profissionalId).getBody().get();
 		
+		Double comissao = pedidoFeignClient.verificarComissaoPorPeriodo(profissionalId, inicio, fim).getBody();
 		
-		return new Salario(profissional.getNome(), profissional.getSalarioFixo(), null);
+		//Instant dataInicio = Instant.parse(inicio + "T00:00:00Z");
+		//Instant dataFim = Instant.parse(inicio + "T23:59:59Z");
+		
+		return new Salario(profissional.getNome(), profissional.getSalarioFixo(), comissao);
 	}
 }

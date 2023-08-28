@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
+import com.jeanpiress.producao.entities.enums.FormaPagamento;
 import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 import com.jeanpiress.producao.services.PedidoService;
 
@@ -59,9 +60,9 @@ public class PedidoResourceTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		
-		pedido = new Pedido(1L, null, "corte", null, null, null, null, PagamentoStatus.PAGO);
+		pedido = new Pedido(1L, null, "corte", null, null, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
 		
-		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, PagamentoStatus.PAGO);
+		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
 		
 		produtos.add(produto);
 		

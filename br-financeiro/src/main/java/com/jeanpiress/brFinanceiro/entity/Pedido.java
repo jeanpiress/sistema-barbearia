@@ -79,27 +79,6 @@ public class Pedido implements Serializable {
 		this.valorTotal = valorTotal;
 	}
 		
-	public Double comissaoPaga() {
-		Double comissao = 0.0;
-		for (Produto produto : produtos) {
-			Double valor = produto.getValor();
-			Double porcentagemComissao = produto.getComissao();
-			Double comissaoProduto = valor*porcentagemComissao/100;
-			comissao += comissaoProduto;
-		}
 		
-		return comissao;
-	}
-	
-	public Double total() {
-		Double total = 0.0;
-		for (Produto produto : produtos) {
-			total += produto.getValor();
-		}
-		return total;
-	}
-
-
-	
 
 }

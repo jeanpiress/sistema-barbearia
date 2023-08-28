@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.jeanpiress.brFinanceiro.entity.Profissional;
 
 @Component
-@FeignClient(name = "br-producao", url = "localhost:8001", path = "/profissionais")
+@FeignClient(name = "profissionaisFeing", url = "localhost:8001", path = "/profissionais")
 public interface ProfissionalFeignClient {
 
 	@GetMapping(value = "/{id}")

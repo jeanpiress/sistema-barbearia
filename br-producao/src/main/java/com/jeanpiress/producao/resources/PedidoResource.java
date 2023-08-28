@@ -74,6 +74,11 @@ public class PedidoResource {
 		return ResponseEntity.ok(comissao);
 	}
 	
+	@GetMapping(value = "profissional/{profissionalId}/inicio/{inicio}/fim/{fim}/comissao")
+	ResponseEntity<Double> verificarComissaoPorPeriodo(@PathVariable Long profissionalId, @PathVariable String inicio, @PathVariable String fim){
+		Double comissao = service.comissaoPagaPorPeriodo(profissionalId, inicio, fim);
+		return ResponseEntity.ok(comissao);
+	}
 	
 	
 	

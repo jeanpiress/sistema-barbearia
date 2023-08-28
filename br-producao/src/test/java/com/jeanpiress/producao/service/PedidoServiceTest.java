@@ -1,8 +1,10 @@
 package com.jeanpiress.producao.service;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
+import com.jeanpiress.producao.entities.Profissional;
+import com.jeanpiress.producao.entities.enums.FormaPagamento;
 import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 import com.jeanpiress.producao.repository.PedidoRepository;
 import com.jeanpiress.producao.services.PedidoService;
@@ -38,30 +42,58 @@ public class PedidoServiceTest {
 	
 	Pedido pedido; 
 	
+	Pedido pedido2;
+	
+	Pedido pedido3;
+	
 	Pedido pedidoAlterado;
+	
+	Profissional profissional;
 	
 	Produto corte;
 	
 	Produto barba;
 	
+	Instant dia23 = Instant.parse("2023-08-23T10:00:00Z");
+	
+	Instant dia24 = Instant.parse("2023-08-24T10:00:00Z");
+	
 	List<Pedido> pedidos = new ArrayList<>();
 	
-		
+	List<Pedido> variosPedidos = new ArrayList<>();
+	
+	List<Produto> variosProdutos = new ArrayList<>();
+			
 	List<Produto> produtos = new ArrayList<>();
-
+	
+	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		pedido = new Pedido(1L, null, "Corte", null, null, produtos, 0.0, PagamentoStatus.PAGO);
-		pedidoAlterado = new Pedido(1L, null, "Corte e barba", null, null, produtos, null, PagamentoStatus.PAGO);
+		
+		profissional = new Profissional(1L, "Jean", "(34) 999708382", null, null, null);
+		pedido = new Pedido(1L, dia23, "Corte", null, profissional, produtos, 0.0, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedido2 = new Pedido(2L, dia23, "Corte e barba", null, profissional, variosProdutos, 0.0, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedido3 = new Pedido(3L, dia24, "Corte e barba", null, profissional, variosProdutos, 0.0, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedidoAlterado = new Pedido(1L, null, "Corte e barba", null, null, produtos, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
 		corte = new Produto(1L, "corte", 45.0, null, 50.0, false, null, null);
 		barba = new Produto(2L, "barba", 45.0, null, 50.0, false, null, null);
+		
 				
 		pedidos.add(pedido);
 		produtos.add(barba);
 		
 		
 		
+		variosProdutos.add(corte);
+		variosProdutos.add(barba);
+		
+		variosPedidos.add(pedido);
+		variosPedidos.add(pedido2);
+		variosPedidos.add(pedido3);
+		
+			
+			
 		
 	}
 
@@ -174,7 +206,7 @@ public class PedidoServiceTest {
 	}
 	
 	@Test
-	public void deveInformarComissao() {
+	public void deveInformarComissaoPorId() {
 		Mockito.when(repository.findById(1L)).thenReturn(Optional.of(pedido));
 		
 		Double comissao = service.comissaoPagaPorId(1L);
@@ -182,6 +214,32 @@ public class PedidoServiceTest {
 		Assertions.assertEquals(comissao, 22.5);
 		
 		verify(repository).findById(pedido.getId());
+		verifyNoMoreInteractions(repository);
+
+	}
+	
+	@Test
+	public void deveInformarComissaoPorPedido() {
+		Double comissao = service.comissaoPagaPorPedido(pedido);
+		
+		Assertions.assertEquals(comissao, 22.5);
+		
+		verifyNoInteractions(repository);
+
+	}
+	
+	
+	@Test
+	public void deveInformarComissaoPorPeriodo() {
+		Mockito.when(service.buscar()).thenReturn(variosPedidos);
+	
+		
+		Double comissao = service.comissaoPagaPorPeriodo(1L, "2023-08-23", "2023-08-24");
+		
+		Assertions.assertEquals(comissao, 112.5);
+		
+				
+		verify(repository).findAll();
 		verifyNoMoreInteractions(repository);
 
 	}
