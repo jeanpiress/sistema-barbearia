@@ -49,7 +49,7 @@ public class GastoFixoService {
 		base.setNome(alterado.getNome());
 		base.setCredor(alterado.getCredor());
 		base.setValor(alterado.getValor());
-		base.setDataVencimento(alterado.getDataVencimento());
+		base.setDiaVencimento(alterado.getDiaVencimento());
 		base.setMotivo(alterado.getMotivo());
 				
 		
