@@ -18,7 +18,7 @@ import com.jeanpiress.brFinanceiro.entities.GastoFixo;
 import com.jeanpiress.brFinanceiro.services.GastoFixoService;
 
 @RestController
-@RequestMapping(value= "/gastoFixos")
+@RequestMapping(value= "/gastosFixos")
 public class GastoFixoResource {
 
 	@Autowired

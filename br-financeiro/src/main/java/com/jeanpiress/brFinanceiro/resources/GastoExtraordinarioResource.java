@@ -18,7 +18,7 @@ import com.jeanpiress.brFinanceiro.entities.GastoExtraordinario;
 import com.jeanpiress.brFinanceiro.services.GastoExtraordinarioService;
 
 @RestController
-@RequestMapping(value= "/gastoExtraordinarios")
+@RequestMapping(value= "/gastosExtraordinarios")
 public class GastoExtraordinarioResource {
 
 	@Autowired
@@ -27,8 +27,8 @@ public class GastoExtraordinarioResource {
 	
 	@GetMapping
 	ResponseEntity<List<GastoExtraordinario>> buscar(){
-		List<GastoExtraordinario> profissionais = service.buscar();
-		return ResponseEntity.ok(profissionais);
+		List<GastoExtraordinario> gastosExtraordinarios = service.buscar();
+		return ResponseEntity.ok(gastosExtraordinarios);
 	}
 	
 	

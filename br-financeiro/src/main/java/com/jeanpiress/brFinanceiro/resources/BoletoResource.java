@@ -27,8 +27,8 @@ public class BoletoResource {
 	
 	@GetMapping
 	ResponseEntity<List<Boleto>> buscar(){
-		List<Boleto> profissionais = service.buscar();
-		return ResponseEntity.ok(profissionais);
+		List<Boleto> boletos = service.buscar();
+		return ResponseEntity.ok(boletos);
 	}
 	
 	

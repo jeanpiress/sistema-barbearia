@@ -14,40 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeanpiress.brFinanceiro.entities.Boleto;
-import com.jeanpiress.brFinanceiro.services.BoletoService;
+import com.jeanpiress.brFinanceiro.entities.Credor;
+import com.jeanpiress.brFinanceiro.services.CredorService;
 
 @RestController
 @RequestMapping(value= "/credores")
 public class CredorResource {
 
 	@Autowired
-	BoletoService service;
+	CredorService service;
 	
 	
 	@GetMapping
-	ResponseEntity<List<Boleto>> buscar(){
-		List<Boleto> profissionais = service.buscar();
-		return ResponseEntity.ok(profissionais);
+	ResponseEntity<List<Credor>> buscar(){
+		List<Credor> credores = service.buscar();
+		return ResponseEntity.ok(credores);
 	}
 	
 	
 	@GetMapping(value = "/{id}")
-	ResponseEntity<Optional<Boleto>> buscarPorId(@PathVariable Long id){
-		Optional<Boleto> boleto = service.buscarPorId(id);
-		return ResponseEntity.ok(boleto);
+	ResponseEntity<Optional<Credor>> buscarPorId(@PathVariable Long id){
+		Optional<Credor> credor = service.buscarPorId(id);
+		return ResponseEntity.ok(credor);
 	}
 	
 	@PostMapping
-	ResponseEntity<Boleto> cadastrar(@RequestBody Boleto obj){
-		Boleto boleto = service.cadastrar(obj);
-		return ResponseEntity.ok(boleto);
+	ResponseEntity<Credor> cadastrar(@RequestBody Credor obj){
+		Credor credor = service.cadastrar(obj);
+		return ResponseEntity.ok(credor);
 	}
 	
 	@PutMapping(value = "/{id}")
-	ResponseEntity<Boleto> Alterar(@PathVariable Long id, @RequestBody Boleto obj){
-		Boleto boleto = service.alterar(id, obj);
-		return ResponseEntity.ok(boleto);
+	ResponseEntity<Credor> Alterar(@PathVariable Long id, @RequestBody Credor obj){
+		Credor credor = service.alterar(id, obj);
+		return ResponseEntity.ok(credor);
 	}
 	
 	@DeleteMapping(value = "/{id}")
