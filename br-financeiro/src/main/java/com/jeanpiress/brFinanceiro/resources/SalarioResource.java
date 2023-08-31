@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanpiress.brFinanceiro.entities.Salario;
-import com.jeanpiress.brFinanceiro.services.SalarioService;
+import com.jeanpiress.brFinanceiro.services.RelatorioService;
 
 
 @RestController
@@ -16,11 +16,17 @@ import com.jeanpiress.brFinanceiro.services.SalarioService;
 public class SalarioResource {
 
 	@Autowired
-	SalarioService service;
+	RelatorioService service;
 	
 	@GetMapping(value = "/profissional/{id}/inicio/{inicio}/fim/{fim}")
-	public ResponseEntity<Salario> salario(@PathVariable Long id, @PathVariable String inicio, @PathVariable String fim){
-		Salario salario = service.getSalario(id, inicio, fim);
+	public ResponseEntity<Salario> salarioProfissionalPeriodo(@PathVariable Long id, @PathVariable String inicio, @PathVariable String fim){
+		Salario salario = service.salarioFuncionarioPorPeriodo(id, inicio, fim);
+		return ResponseEntity.ok(salario);
+	}
+	
+	@GetMapping(value = "/profissional/{id}/ano/{ano}/mes/{mes}")
+	public ResponseEntity<Salario> salarioProfissionalMes(@PathVariable Long id, @PathVariable int ano, @PathVariable int mes){
+		Salario salario = service.salarioFuncionarioMes(id, ano, mes);
 		return ResponseEntity.ok(salario);
 	}
 }

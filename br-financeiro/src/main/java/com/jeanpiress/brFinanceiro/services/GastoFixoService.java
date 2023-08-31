@@ -1,5 +1,8 @@
 package com.jeanpiress.brFinanceiro.services;
 
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +60,21 @@ public class GastoFixoService {
 	
 	public void deletar(Long id) {
 		repository.deleteById(id);
+	}
+	
+	public List<GastoFixo> buscarTodosGastosFixosPorMes(int ano, int mes) {
+		List<GastoFixo> todosGastosFixos = buscar();
+		List<GastoFixo> gastosFixosMes = new ArrayList<>();
+		
+		for(GastoFixo gastoFixo: todosGastosFixos) {
+			YearMonth mesEAno = YearMonth.from(gastoFixo.getDiaVencimento().atZone(ZoneOffset.UTC));
+			if(mesEAno.getYear() == ano && mesEAno.getMonthValue() == mes) {
+				gastosFixosMes.add(gastoFixo);
+			}
+		}
+		
+			
+		return gastosFixosMes;
 	}
 	
 	

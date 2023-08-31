@@ -1,4 +1,4 @@
-package com.jeanpiress.producao.entities;
+package com.jeanpiress.brFinanceiro.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -6,23 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-@Table(name = "tb_clientes")
 public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
@@ -34,11 +20,7 @@ public class Cliente implements Serializable{
 	private Instant previsaoRetorno;
 	private String observacao;
 	
-	@Embedded
-	private Endereco endereco;
 	
-	@OneToMany(mappedBy = "cliente")
-	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
@@ -46,7 +28,7 @@ public class Cliente implements Serializable{
 	}
 	
 	public Cliente(Long id, String nome, String celular, Instant nascimento, Instant ultimaVisita, Integer pontos,
-			Integer diasParaVoltar, Instant previsaoRetorno, String observacao, Endereco endereco) {
+			Integer diasParaVoltar, Instant previsaoRetorno, String observacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -57,7 +39,7 @@ public class Cliente implements Serializable{
 		this.diasParaVoltar = diasParaVoltar;
 		this.previsaoRetorno = previsaoRetorno;
 		this.observacao = observacao;
-		this.endereco = endereco;
+		
 	}
 
 	
@@ -108,8 +90,7 @@ public class Cliente implements Serializable{
 	public void setPontos(Integer pontos) {
 		this.pontos = pontos;
 	}
-	
-	
+
 	public Integer getDiasParaVoltar() {
 		return diasParaVoltar;
 	}
@@ -144,14 +125,6 @@ public class Cliente implements Serializable{
 	}
 	
 	
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

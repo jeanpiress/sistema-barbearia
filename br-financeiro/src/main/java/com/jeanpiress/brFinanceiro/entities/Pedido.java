@@ -20,19 +20,28 @@ public class Pedido implements Serializable {
 	private List<Produto> produtos = new ArrayList<>();
 
 	private Double valorTotal;
+	
+	private Double comissao;
+	
+	private Integer pagamentoStatus;
+	
+	private Integer formaPagamento;
 
 	public Pedido() {
 
 	}
 
 	public Pedido(Instant horario, String descricao, Profissional profissional,
-			List<Produto> produtos, Double valorTotal) {
+			List<Produto> produtos, Double valorTotal, Double comissao, Integer pagamentoStatus, Integer formaPagamento) {
 		super();
 		this.horario = horario;
 		this.descricao = descricao;
 		this.profissional = profissional;
 		this.produtos = produtos;
 		this.valorTotal = valorTotal;
+		this.comissao = comissao;
+		this.pagamentoStatus = pagamentoStatus;
+		this.formaPagamento = formaPagamento;
 	}
 
 	
@@ -78,7 +87,32 @@ public class Pedido implements Serializable {
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
+
+	public Double getComissao() {
+		return comissao;
+	}
+
+	public void setComissao(Double comissao) {
+		this.comissao = comissao;
+	}
+
+	public Integer getPagamentoStatus() {
+		return pagamentoStatus;
+	}
+
+	public void setPagamentoStatus(Integer pagamentoStatus) {
+		this.pagamentoStatus = pagamentoStatus;
+	}
+
+	public Integer getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(Integer formaPagamento) {
+		this.formaPagamento = formaPagamento;
+	}
 		
+	
 		
 
 }

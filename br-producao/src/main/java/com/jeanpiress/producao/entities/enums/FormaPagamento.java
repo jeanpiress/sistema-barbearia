@@ -6,7 +6,8 @@ public enum FormaPagamento {
 	PIX(2), 
 	CREDITO(3), 
 	DEBITO(4), 
-	MISTO(5);
+	MISTO(5),
+	ESPERANDO(6);
 
 	private int code;
 

@@ -57,7 +57,7 @@ public class GastoFixoResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		imobiliaria = new Credor(1L, "imobiliaria", "aluguel");
 			
-		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, imobiliaria, "aluguel", 20, true, PagamentoStatus.APAGAR);
+		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, imobiliaria, "aluguel", null, true, PagamentoStatus.APAGAR);
 		
 		objectMapper = new ObjectMapper();
 	    objectMapper.registerModule(new JavaTimeModule());

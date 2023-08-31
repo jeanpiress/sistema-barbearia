@@ -40,8 +40,8 @@ public class ClienteServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, null, "cabelo cacheado", null);
-		clienteAlterado = new Cliente(null, "Carolina", "(34)999708382", null, null, 100, null, "cabelo cacheado", null);
+		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
+		clienteAlterado = new Cliente(null, "Carolina", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
 				
 		clientes.add(cliente);
 		

@@ -1,5 +1,7 @@
 package com.jeanpiress.producao.services;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +61,19 @@ public class ClienteService {
 	
 	public void deletar(Long id) {
 		repository.deleteById(id);
+	}
+	
+	
+	public Instant atualizarPrevisaoRetorno(Long id) {
+		Cliente cliente = repository.getReferenceById(id);
+		
+		Integer diasParaVoltar = cliente.getDiasParaVoltar();
+		Instant ultimaVisita = cliente.getUltimaVisita();
+		Instant previsaoRetorno = ultimaVisita.plus(diasParaVoltar,  ChronoUnit.DAYS);
+		
+		
+		
+		return previsaoRetorno;
 	}
 	
 	

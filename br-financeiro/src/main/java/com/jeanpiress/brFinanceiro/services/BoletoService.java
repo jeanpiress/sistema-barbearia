@@ -1,5 +1,8 @@
 package com.jeanpiress.brFinanceiro.services;
 
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +60,20 @@ public class BoletoService {
 		repository.deleteById(id);
 	}
 	
+	public List<Boleto> buscarTodosBoletosPorMes(int ano, int mes) {
+		List<Boleto> todosBoletos = buscar();
+		List<Boleto> boletosMes = new ArrayList<>();
+		
+		for(Boleto boleto: todosBoletos) {
+			YearMonth mesEAno = YearMonth.from(boleto.getDataPagamento().atZone(ZoneOffset.UTC));
+			if(mesEAno.getYear() == ano && mesEAno.getMonthValue() == mes) {
+				boletosMes.add(boleto);
+			}
+		}
+		
+			
+		return boletosMes;
+	}
 	
 	
 	

@@ -1,5 +1,6 @@
 package com.jeanpiress.brFinanceiro.entities;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class GastoFixo {
 	
 	private String motivo;
 	
-	private Integer diaVencimento;
+	private Instant diaVencimento;
 	
 	private boolean ativo;
 	
@@ -36,7 +37,7 @@ public class GastoFixo {
 		
 	}
 	
-	public GastoFixo(Long id, String nome, Double valor, Credor credor, String motivo, Integer diaVencimento, boolean ativo, PagamentoStatus pagamentoStatus) {
+	public GastoFixo(Long id, String nome, Double valor, Credor credor, String motivo, Instant diaVencimento, boolean ativo, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -89,11 +90,11 @@ public class GastoFixo {
 		this.motivo = motivo;
 	}
 
-	public Integer getDiaVencimento() {
+	public Instant getDiaVencimento() {
 		return diaVencimento;
 	}
 
-	public void setDiaVencimento(Integer diaVencimento) {
+	public void setDiaVencimento(Instant diaVencimento) {
 		this.diaVencimento = diaVencimento;
 	}
 

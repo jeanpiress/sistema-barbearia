@@ -5,8 +5,10 @@ import java.util.List;
 
 public class CaixaMensal {
 
-	private Double taxaCartao;
+	
 	private Double faturamento;
+	
+	private List<Salario> salarios = new ArrayList<>();
 	
 	private List<Boleto> boletos = new ArrayList<>();
 	
@@ -19,30 +21,32 @@ public class CaixaMensal {
 		
 	}
 	
-	public CaixaMensal(Double taxaCartao, Double faturamento, List<Boleto> boletos,
+	public CaixaMensal(Double faturamento, List<Salario> salarios, List<Boleto> boletos,
 			List<GastoExtraordinario> gastosExtraordinarios, List<GastoFixo> gastosFixos) {
 		super();
-		this.taxaCartao = taxaCartao;
 		this.faturamento = faturamento;
+		this.salarios = salarios;
 		this.boletos = boletos;
 		this.gastosExtraordinarios = gastosExtraordinarios;
 		this.gastosFixos = gastosFixos;
 	}
 
-	public Double getTaxaCartao() {
-		return taxaCartao;
-	}
-
-	public void setTaxaCartao(Double taxaCartao) {
-		this.taxaCartao = taxaCartao;
-	}
-
+	
 	public Double getFaturamento() {
 		return faturamento;
 	}
 
 	public void setFaturamento(Double faturamento) {
 		this.faturamento = faturamento;
+	}
+	
+	
+	public List<Salario> getSalarios() {
+		return salarios;
+	}
+
+	public void setSalarios(List<Salario> salarios) {
+		this.salarios = salarios;
 	}
 
 	public List<Boleto> getBoletos() {

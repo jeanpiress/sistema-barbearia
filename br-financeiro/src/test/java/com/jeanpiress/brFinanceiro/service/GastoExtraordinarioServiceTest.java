@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,8 @@ public class GastoExtraordinarioServiceTest {
 	GastoExtraordinarioRepository repository;
 
 	GastoExtraordinario gastoExtraordinario;
+	
+	GastoExtraordinario gastoExtraordinario2;
 
 	GastoExtraordinario gastoExtraordinarioAlterado;
 	
@@ -41,13 +44,22 @@ public class GastoExtraordinarioServiceTest {
 	
 	Instant dataPagamento;
 
+	Instant dataPagamentoPassada;
+	
+	List<GastoExtraordinario> gastosEstraordinarios = new ArrayList<>();
+	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		loreal = new Credor(1L, "loreal", "produtos");
 		dataPagamento = Instant.parse("2023-08-28T00:00:00Z");
+		dataPagamentoPassada = Instant.parse("2023-07-28T00:00:00Z");
 		gastoExtraordinario = new GastoExtraordinario(1L, loreal, 350.0, dataPagamento, PagamentoStatus.APAGAR);
+		gastoExtraordinario2 = new GastoExtraordinario(2L, loreal, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
 		gastoExtraordinarioAlterado = new GastoExtraordinario(1L, loreal, 380.0, dataPagamento, PagamentoStatus.APAGAR);
+		
+		gastosEstraordinarios.add(gastoExtraordinario);
+		gastosEstraordinarios.add(gastoExtraordinario2);
 
 	}
 
@@ -112,4 +124,17 @@ public class GastoExtraordinarioServiceTest {
 		verifyNoMoreInteractions(repository);
 	}
 
+	@Test
+	public void DeveBuscarGastosExtraordinariosDoMes() {
+		Mockito.when(service.buscar()).thenReturn(gastosEstraordinarios);
+		
+		List<GastoExtraordinario> gastosExtraordinariosMes = service.buscarTodosGastosPorMes(2023, 8);
+		
+		Assertions.assertTrue(gastosExtraordinariosMes.contains(gastoExtraordinario));
+		Assertions.assertFalse(gastosExtraordinariosMes.contains(gastoExtraordinario2));
+		
+		verify(repository).findAll();
+		verifyNoMoreInteractions(repository);
+		
+	}
 }

@@ -1,5 +1,8 @@
 package com.jeanpiress.brFinanceiro.services;
 
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +60,20 @@ public class GastoExtraordinarioService {
 		repository.deleteById(id);
 	}
 	
-	
+	public List<GastoExtraordinario> buscarTodosGastosPorMes(int ano, int mes) {
+		List<GastoExtraordinario> todosGastosExtraordinarios = buscar();
+		List<GastoExtraordinario> gastosExtraordinariosMes = new ArrayList<>();
+		
+		for(GastoExtraordinario gastos: todosGastosExtraordinarios) {
+			YearMonth mesEAno = YearMonth.from(gastos.getDataPagamento().atZone(ZoneOffset.UTC));
+			if(mesEAno.getYear() == ano && mesEAno.getMonthValue() == mes) {
+				gastosExtraordinariosMes.add(gastos);
+			}
+		}
+		
+			
+		return gastosExtraordinariosMes;
+	}
 	
 	
 

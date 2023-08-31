@@ -1,6 +1,9 @@
 package com.jeanpiress.producao.services;
 
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.jeanpiress.producao.entities.Pedido;
 import com.jeanpiress.producao.entities.Produto;
+import com.jeanpiress.producao.entities.enums.FormaPagamento;
 import com.jeanpiress.producao.entities.enums.PagamentoStatus;
 import com.jeanpiress.producao.repository.PedidoRepository;
 
@@ -21,6 +25,9 @@ public class PedidoService {
 
 	@Autowired
 	ProdutoService produtoService;
+	
+	@Autowired
+	ClienteService clienteService;
 
 	public List<Pedido> buscar() {
 		List<Pedido> pedidos = repository.findAll();
@@ -57,12 +64,16 @@ public class PedidoService {
 
 	public Pedido adicionarProduto(Long id, Long produtoId) {
 		Pedido pedido = buscarPorId(id).get();
+		pedido.setPagamentoStatus(PagamentoStatus.APAGAR);
+		pedido.setFormaPagamento(FormaPagamento.ESPERANDO);
 		Produto produto = produtoService.buscarPorId(produtoId).get();
 		List<Produto> produtos = pedido.getProdutos();
 		produtos.add(produto);
 		pedido.setProdutos(produtos);
 		atulaizarValor(pedido);
-
+		Double comissao = comissaoPagaPorPedido(pedido);
+		pedido.setComissao(comissao);
+		
 		return repository.save(pedido);
 	}
 
@@ -114,6 +125,8 @@ public class PedidoService {
 
 		return comissao;
 	}
+	
+	
 
 	public Double comissaoPagaPorPeriodo(Long profissionalId, String inicio, String fim) {
 
@@ -141,6 +154,47 @@ public class PedidoService {
 		}
 
 		return comissao;
+	}
+	
+	
+	public Double comissaoPagaProfissionalMes(Long profissionalId, int ano, int mes) {
+				
+		List<Pedido> todosPedidos = buscar();
+		List<Pedido> pedidosSelecionados = new ArrayList<>();
+		Double comissao = 0.0;
+
+		// Buscando todos os pedidos que estão pagos e dentro do mes e ano selecionada
+		for (Pedido pedidoGeral : todosPedidos) {
+			YearMonth mesEAno = YearMonth.from(pedidoGeral.getHorario().atZone(ZoneOffset.UTC));
+			if (pedidoGeral.getProfissional().getId() == profissionalId 
+					&& mesEAno.getYear() == ano
+					&& mesEAno.getMonthValue() == mes
+					&& pedidoGeral.getPagamentoStatus() == PagamentoStatus.PAGO) {
+				
+				pedidosSelecionados.add(pedidoGeral);
+			}
+
+		}
+		
+		for (Pedido pedidoTratado : pedidosSelecionados) {
+			comissao += comissaoPagaPorPedido(pedidoTratado);
+		}
+
+		return comissao;
+	}
+	
+	public Pedido pagamentoPedido(Long pedidoId, int formaPagamento) {
+		Pedido pedido = repository.getReferenceById(pedidoId);
+		Instant previsaoRetorno = clienteService.atualizarPrevisaoRetorno(pedido.getCliente().getId());
+		pedido.setFormaPagamento(FormaPagamento.valueOf(formaPagamento));
+		pedido.setPagamentoStatus(PagamentoStatus.PAGO);
+		pedido.getCliente().setUltimaVisita(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+		pedido.getCliente().setPrevisaoRetorno(previsaoRetorno);
+		pedido.setMomentoPagamento(Instant.now());
+		
+		
+		return repository.save(pedido);
+		
 	}
 
 }

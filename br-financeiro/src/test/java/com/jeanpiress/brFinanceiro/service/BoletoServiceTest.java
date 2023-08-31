@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,20 +35,31 @@ public class BoletoServiceTest {
 	BoletoRepository repository;
 
 	Boleto boleto;
+	
+	Boleto boleto2;
 
 	Boleto boletoAlterado;
 	
 	Credor loreal;
 	
-	Instant dataPagamento;
+	Instant dataPagamentoAtual;
+	
+	Instant dataPagamentoPassada;
+	
+	List<Boleto> boletos = new ArrayList<>();
 
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		loreal = new Credor(1L, "loreal", "produtos");
-		dataPagamento = Instant.parse("2023-08-28T00:00:00Z");
-		boleto = new Boleto(1L, loreal, 350.0, dataPagamento, PagamentoStatus.APAGAR);
-		boletoAlterado = new Boleto(1L, loreal, 380.0, dataPagamento, PagamentoStatus.APAGAR);
+		dataPagamentoAtual = Instant.parse("2023-08-28T00:00:00Z");
+		dataPagamentoPassada = Instant.parse("2023-07-28T00:00:00Z");
+		boleto = new Boleto(1L, loreal, 350.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
+		boleto2 = new Boleto(2L, loreal, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
+		boletoAlterado = new Boleto(1L, loreal, 380.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
+		
+		boletos.add(boleto);
+		boletos.add(boleto2);
 
 	}
 
@@ -110,6 +122,20 @@ public class BoletoServiceTest {
 
 		verify(repository).deleteById(1L);
 		verifyNoMoreInteractions(repository);
+	}
+	
+	@Test
+	public void DeveBuscarBoletosDoMes() {
+		Mockito.when(service.buscar()).thenReturn(boletos);
+		
+		List<Boleto> boletosMes = service.buscarTodosBoletosPorMes(2023, 8);
+		
+		Assertions.assertTrue(boletosMes.contains(boleto));
+		Assertions.assertFalse(boletosMes.contains(boleto2));
+		
+		verify(repository).findAll();
+		verifyNoMoreInteractions(repository);
+		
 	}
 
 }

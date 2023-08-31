@@ -9,17 +9,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
@@ -53,6 +51,12 @@ public class PedidoResourceTest {
 	
 	List<Produto> produtos = new ArrayList<>();
 	
+	String inicio;
+	
+	String fim;
+	
+	Instant horario;
+	
 
 
 	@BeforeEach
@@ -60,18 +64,23 @@ public class PedidoResourceTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		
-		pedido = new Pedido(1L, null, "corte", null, null, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedido = new Pedido(1L, horario, "corte", null, null, null, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
 		
-		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
 		
 		produtos.add(produto);
+		
+		inicio = "2023:08:27";
+		
+		fim = "2023:08:28";
+		
+		horario = Instant.parse("2023-08-28T00:00:00Z");
+		
 		
 	}
 
 	@Test
 	public void deveBuscarTodosOsPedidosEmJson() throws Exception {
-		Mockito.when(service.buscar()).thenReturn(Collections.singletonList(pedido));
-
 		mockMvc.perform(get("/pedidos")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -85,8 +94,6 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveBuscarPedidoPorIdEmJson() throws Exception {
-		Mockito.when(service.buscarPorId(1L)).thenReturn(Optional.ofNullable(pedido));
-
 		mockMvc.perform(get("/pedidos/1")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -100,9 +107,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveCadastrarNovoPedido() throws Exception {
-		Mockito.when(service.cadastrar(pedido)).thenReturn(pedido);
-		
-		String pedidoJson = new ObjectMapper().writeValueAsString(pedido);
+	String pedidoJson = new ObjectMapper().writeValueAsString(pedido);
 		
 		mockMvc.perform(post("/pedidos")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -117,7 +122,7 @@ public class PedidoResourceTest {
 	}
 	
 	@Test
-	public void deveDarErroCasoNaoInformarPedido() throws Exception {
+	public void deveDarErroAoCadastrarCasoNaoInformarPedido() throws Exception {
 		mockMvc.perform(post("/pedidos")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
@@ -130,9 +135,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveAlterarUmPedidoInformandoId() throws Exception {
-		Mockito.when(service.alterar(1L, pedido)).thenReturn(pedido);
-		
-		String pedidoJson = new ObjectMapper().writeValueAsString(pedido);
+	String pedidoJson = new ObjectMapper().writeValueAsString(pedido);
 		
 		mockMvc.perform(put("/pedidos/1")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -199,9 +202,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveAdicionarUmProdutoAoPedido() throws Exception {
-		Mockito.when(service.adicionarProduto(1L, 1L)).thenReturn(pedidoProduto);
-		
-				mockMvc.perform(put("/pedidos/1/produto/1/add")
+		mockMvc.perform(put("/pedidos/1/produto/1/add")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andReturn();
@@ -214,8 +215,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveDarErroAoAdicionarUmProdutoSemIdDoPedido() throws Exception {
-				
-				mockMvc.perform(put("/pedidos/produto/1/add")
+			mockMvc.perform(put("/pedidos/produto/1/add")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
 				.andReturn();
@@ -227,8 +227,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveDarErroAoAdicionarUmProdutoSemId() throws Exception {
-	
-				mockMvc.perform(put("/pedidos/1/produto/add")
+			mockMvc.perform(put("/pedidos/1/produto/add")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
 				.andReturn();
@@ -240,9 +239,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveRemoverUmProdutoDoPedido() throws Exception {
-		Mockito.when(service.removerProduto(1L, 1L)).thenReturn(pedido);
-		
-				mockMvc.perform(put("/pedidos/1/produto/1/remove")
+			mockMvc.perform(put("/pedidos/1/produto/1/remove")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andReturn();
@@ -255,8 +252,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveDarErroSeNaoInformarSeEAddOuRemove() throws Exception {
-		
-				mockMvc.perform(put("/pedidos/1/produto")
+			mockMvc.perform(put("/pedidos/1/produto")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
 				.andReturn();
@@ -268,9 +264,7 @@ public class PedidoResourceTest {
 	
 	@Test
 	public void deveInformarAComissaoGeradaPelosPedidos() throws Exception {
-		Mockito.when(service.comissaoPagaPorId(1L)).thenReturn(22.5);
-		
-				mockMvc.perform(get("/pedidos/1/comissao")
+			mockMvc.perform(get("/pedidos/1/comissao")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andReturn();
@@ -281,11 +275,11 @@ public class PedidoResourceTest {
 
 	}
 	
+	
+	
 	@Test
 	public void deveDarErroAoInformarAComissaoSeNaoInformarOIdDoPedido() throws Exception {
-		Mockito.when(service.comissaoPagaPorId(1L)).thenReturn(22.5);
-		
-				mockMvc.perform(get("/pedidos/comissao")
+			mockMvc.perform(get("/pedidos/comissao")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
 				.andReturn();
@@ -294,4 +288,19 @@ public class PedidoResourceTest {
 		
 
 	}
+	
+	@Test
+	public void deveBuscarAComissaoPagaPorProfissionalNaDataSelecionada() throws Exception {
+		mockMvc.perform(get("/pedidos/profissional/1/inicio/2023:08:27/fim/2023:08:28/comissao")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+		
+		verify(service).comissaoPagaPorPeriodo(1L, inicio, fim);
+		verifyNoMoreInteractions(service);
+	}
+	
+	
+	
+	
 }

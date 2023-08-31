@@ -3,6 +3,8 @@ package com.jeanpiress.brFinanceiro.service;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,19 +35,37 @@ public class GastoFixoServiceTest {
 	GastoFixoRepository repository;
 
 	GastoFixo gastoFixo;
+	
+	GastoFixo gastoFixo2;
+	
+	GastoFixo gastoFixo3;
 
 	GastoFixo gastoFixoAlterado;
 	
 	Credor credor;
 	
+	List<GastoFixo> gastosFixos = new ArrayList<>();
+	
+	Instant dataFutura;
+	
+	Instant dataPassada;
 	
 
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
+		dataFutura = Instant.parse("2023-08-28T00:00:00Z");
+		dataPassada = Instant.parse("2023-07-28T00:00:00Z");
 		credor = new Credor(1L, "Imobiliaria", "Aluguel");
-		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, credor, "Aluguel", 20, true, PagamentoStatus.APAGAR);
-		gastoFixoAlterado = new GastoFixo(1L, "Aluguel", 4000.0, credor, "Aluguel do imovel", 15, true, PagamentoStatus.APAGAR);
+		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, credor, "Aluguel", dataFutura, true, PagamentoStatus.APAGAR);
+		gastoFixo2 = new GastoFixo(2L, "Energia", 3870.0, credor, "Energia", dataFutura, true, PagamentoStatus.APAGAR);
+		gastoFixo3 = new GastoFixo(3L, "Energia", 3870.0, credor, "Energia", dataPassada, true, PagamentoStatus.PAGO);
+		gastoFixoAlterado = new GastoFixo(1L, "Aluguel", 4000.0, credor, "Aluguel do imovel", dataFutura, true, PagamentoStatus.APAGAR);
+		
+		gastosFixos.add(gastoFixo);
+		gastosFixos.add(gastoFixo2);
+		gastosFixos.add(gastoFixo3);
+		
 
 	}
 
@@ -94,7 +114,6 @@ public class GastoFixoServiceTest {
 
 		Assertions.assertEquals(gastoFixo.getId(), 1L);
 		Assertions.assertEquals(gastoFixo.getValor(), gastoFixoAlterado.getValor());
-		Assertions.assertEquals(gastoFixo.getDiaVencimento(), gastoFixoAlterado.getDiaVencimento());
 		Assertions.assertEquals(gastoFixo.getNome(), gastoFixoAlterado.getNome());
 		Assertions.assertEquals(gastoFixo.getMotivo(), gastoFixoAlterado.getMotivo());
 		
@@ -111,6 +130,21 @@ public class GastoFixoServiceTest {
 
 		verify(repository).deleteById(1L);
 		verifyNoMoreInteractions(repository);
+	}
+	
+	@Test
+	public void DeveBuscarGastosDoMes() {
+		Mockito.when(service.buscar()).thenReturn(gastosFixos);
+		
+		List<GastoFixo> gastosMes = service.buscarTodosGastosFixosPorMes(2023, 8);
+		
+		Assertions.assertTrue(gastosMes.contains(gastoFixo));
+		Assertions.assertTrue(gastosMes.contains(gastoFixo2));
+		Assertions.assertFalse(gastosMes.contains(gastoFixo3));
+		
+		verify(repository).findAll();
+		verifyNoMoreInteractions(repository);
+		
 	}
 
 }

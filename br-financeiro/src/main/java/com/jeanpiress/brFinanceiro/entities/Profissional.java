@@ -2,10 +2,12 @@ package com.jeanpiress.brFinanceiro.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 public class Profissional implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
 	private String nome;
 	private String celular;
 	private Instant nascimento;
@@ -16,15 +18,24 @@ public class Profissional implements Serializable {
 
 	}
 
-	public Profissional(String nome, String celular, Instant nascimento, Double salarioFixo) {
+	public Profissional(Long id, String nome, String celular, Instant nascimento, Double salarioFixo) {
 		super();
-		
+		this.id = id;
 		this.nome = nome;
 		this.celular = celular;
 		this.nascimento = nascimento;
 		this.salarioFixo = salarioFixo;
 		
 
+	}
+
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -59,5 +70,23 @@ public class Profissional implements Serializable {
 		this.salarioFixo = salarioFixo;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profissional other = (Profissional) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	
 
 }

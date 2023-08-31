@@ -50,16 +50,21 @@ public class Pedido implements Serializable {
 
 	private Double valorTotal;
 	
+	private Double comissao;
+	
 	private Integer pagamentoStatus;
 	
 	private Integer formaPagamento;
-
+	
+	private Instant momentoPagamento;
+	
+	
 	public Pedido() {
 
 	}
 
 	public Pedido(Long id, Instant horario, String descricao, Cliente cliente, Profissional profissional,
-			List<Produto> produtos, Double valorTotal, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento) {
+			List<Produto> produtos, Double valorTotal, Double comissao, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento) {
 		super();
 		this.id = id;
 		this.horario = horario;
@@ -68,6 +73,7 @@ public class Pedido implements Serializable {
 		this.profissional = profissional;
 		this.produtos = produtos;
 		this.valorTotal = valorTotal;
+		this.comissao = comissao;
 		setPagamentoStatus(pagamentoStatus);
 		setFormaPagamento(formaPagamento);
 	}
@@ -129,6 +135,14 @@ public class Pedido implements Serializable {
 		this.valorTotal = valorTotal;
 	}
 	
+	public Double getComissao() {
+		return comissao;
+	}
+
+	public void setComissao(Double comissao) {
+		this.comissao = comissao;
+	}
+
 	public PagamentoStatus getPagamentoStatus() {
 		return PagamentoStatus.valueOf(pagamentoStatus) ;
 	}
@@ -147,6 +161,14 @@ public class Pedido implements Serializable {
 		if(formaPagamento != null) {
 		this.formaPagamento = formaPagamento.getCode();
 		}
+	}
+	
+	public Instant getMomentoPagamento() {
+		return momentoPagamento;
+	}
+
+	public void setMomentoPagamento(Instant momentoPagamento) {
+		this.momentoPagamento = momentoPagamento;
 	}
 
 	@Override

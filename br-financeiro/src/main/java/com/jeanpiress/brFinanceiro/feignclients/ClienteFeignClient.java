@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.jeanpiress.brFinanceiro.entities.Profissional;
+import com.jeanpiress.brFinanceiro.entities.Cliente;
 
 @Component
-@FeignClient(name = "profissionaisFeing", url = "localhost:8001", path = "/profissionais")
-public interface ProfissionalFeignClient {
+@FeignClient(name = "clientesFeing", url = "localhost:8001", path = "/clientes")
+public interface ClienteFeignClient {
 
 	@GetMapping(value = "/{id}")
-	ResponseEntity<Optional<Profissional>> buscarPorId(@PathVariable Long id);
+	ResponseEntity<Optional<Cliente>> buscarPorId(@PathVariable Long id);
 		
 	@GetMapping
-	ResponseEntity<List<Profissional>> buscar();
+	ResponseEntity<List<Cliente>> buscar();
 }

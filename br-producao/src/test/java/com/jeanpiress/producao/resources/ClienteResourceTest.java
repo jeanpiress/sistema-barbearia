@@ -49,7 +49,7 @@ public class ClienteResourceTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		
-		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, null, "cabelo cacheado", null);
+		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
 		
 		
 	}
