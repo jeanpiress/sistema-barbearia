@@ -15,6 +15,8 @@ public class CaixaMensal {
 	private List<GastoExtraordinario> gastosExtraordinarios = new ArrayList<>();
 	
 	private List<GastoFixo> gastosFixos = new ArrayList<>();
+	
+	private Double lucro;
 
 	
 	public CaixaMensal() {
@@ -22,13 +24,14 @@ public class CaixaMensal {
 	}
 	
 	public CaixaMensal(Double faturamento, List<Salario> salarios, List<Boleto> boletos,
-			List<GastoExtraordinario> gastosExtraordinarios, List<GastoFixo> gastosFixos) {
+			List<GastoExtraordinario> gastosExtraordinarios, List<GastoFixo> gastosFixos, Double lucro) {
 		super();
 		this.faturamento = faturamento;
 		this.salarios = salarios;
 		this.boletos = boletos;
 		this.gastosExtraordinarios = gastosExtraordinarios;
 		this.gastosFixos = gastosFixos;
+		this.lucro = lucro;
 	}
 
 	
@@ -71,6 +74,14 @@ public class CaixaMensal {
 
 	public void setGastosFixos(List<GastoFixo> gastosFixos) {
 		this.gastosFixos = gastosFixos;
+	}
+
+	public Double getLucro() {
+		return lucro;
+	}
+
+	public void setLucro(Double lucro) {
+		this.lucro = lucro;
 	}
 
 	
