@@ -5,6 +5,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jeanpiress.brFinanceiro.enums.FormaPagamento;
+import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
+
 
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,13 +29,15 @@ public class Pedido implements Serializable {
 	private Integer pagamentoStatus;
 	
 	private Integer formaPagamento;
+	
+	private Instant momentoPagamento;
 
 	public Pedido() {
 
 	}
 
-	public Pedido(Instant horario, String descricao, Profissional profissional,
-			List<Produto> produtos, Double valorTotal, Double comissao, Integer pagamentoStatus, Integer formaPagamento) {
+	public Pedido(Instant horario, String descricao, Profissional profissional, List<Produto> produtos,
+			 Double valorTotal, Double comissao, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento, Instant momentoPagamento) {
 		super();
 		this.horario = horario;
 		this.descricao = descricao;
@@ -40,8 +45,9 @@ public class Pedido implements Serializable {
 		this.produtos = produtos;
 		this.valorTotal = valorTotal;
 		this.comissao = comissao;
-		this.pagamentoStatus = pagamentoStatus;
-		this.formaPagamento = formaPagamento;
+		setPagamentoStatus(pagamentoStatus);
+		setFormaPagamento(formaPagamento);
+		this.momentoPagamento = momentoPagamento;
 	}
 
 	
@@ -96,21 +102,35 @@ public class Pedido implements Serializable {
 		this.comissao = comissao;
 	}
 
-	public Integer getPagamentoStatus() {
-		return pagamentoStatus;
+	public PagamentoStatus getPagamentoStatus() {
+		return PagamentoStatus.valueOf(pagamentoStatus) ;
 	}
 
-	public void setPagamentoStatus(Integer pagamentoStatus) {
-		this.pagamentoStatus = pagamentoStatus;
+	public void setPagamentoStatus(PagamentoStatus pagamentoStatus) {
+		if(pagamentoStatus != null) {
+		this.pagamentoStatus = pagamentoStatus.getCode();
+		}
+	}
+	
+	public FormaPagamento getFormaPagamento() {
+		return FormaPagamento.valueOf(formaPagamento) ;
 	}
 
-	public Integer getFormaPagamento() {
-		return formaPagamento;
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		if(formaPagamento != null) {
+		this.formaPagamento = formaPagamento.getCode();
+		}
 	}
 
-	public void setFormaPagamento(Integer formaPagamento) {
-		this.formaPagamento = formaPagamento;
+	public Instant getMomentoPagamento() {
+		return momentoPagamento;
 	}
+
+	public void setMomentoPagamento(Instant momentoPagamento) {
+		this.momentoPagamento = momentoPagamento;
+	}
+	
+	
 		
 	
 		

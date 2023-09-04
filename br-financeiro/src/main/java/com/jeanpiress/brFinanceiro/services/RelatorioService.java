@@ -82,7 +82,7 @@ public class RelatorioService {
 		
 		//Filtrando os Pedidos por mes e ano
 		for (Pedido pedido: pedidos) {
-			YearMonth mesEAno = YearMonth.from(pedido.getHorario().atZone(ZoneOffset.UTC));
+			YearMonth mesEAno = YearMonth.from(pedido.getMomentoPagamento().atZone(ZoneOffset.UTC));
 			if(mesEAno.getYear() == ano && mesEAno.getMonthValue() == mes){
 				pedidosSelecionados.add(pedido);
 			}

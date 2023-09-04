@@ -116,9 +116,9 @@ public class RelatorioServiceTest {
 	
 		horario = Instant.parse("2023-08-28T10:00:00Z");
 
-		pedido1 = new Pedido(horario, "corte e barba", profissional, produtos, 90.0, 45.0, null, null);
+		pedido1 = new Pedido(horario, "corte e barba", profissional, produtos, 90.0, 45.0, null, null, horario);
 		
-		pedido2 = new Pedido(horario, "corte e barba", profissional, produtos, 90.0, 45.0, null, null);
+		pedido2 = new Pedido(horario, "corte e barba", profissional, produtos, 90.0, 45.0, null, null, horario);
 		
 		corte = new Produto("corte", 45.0, null, 50.0, false, null);
 		

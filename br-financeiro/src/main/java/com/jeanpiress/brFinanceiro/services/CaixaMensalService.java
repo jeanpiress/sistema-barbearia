@@ -3,6 +3,7 @@ package com.jeanpiress.brFinanceiro.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jeanpiress.brFinanceiro.entities.Boleto;
 import com.jeanpiress.brFinanceiro.entities.CaixaMensal;
@@ -10,6 +11,7 @@ import com.jeanpiress.brFinanceiro.entities.GastoExtraordinario;
 import com.jeanpiress.brFinanceiro.entities.GastoFixo;
 import com.jeanpiress.brFinanceiro.entities.Salario;
 
+@Service
 public class CaixaMensalService {
 
 	@Autowired

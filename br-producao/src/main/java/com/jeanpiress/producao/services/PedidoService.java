@@ -165,7 +165,7 @@ public class PedidoService {
 
 		// Buscando todos os pedidos que estão pagos e dentro do mes e ano selecionada
 		for (Pedido pedidoGeral : todosPedidos) {
-			YearMonth mesEAno = YearMonth.from(pedidoGeral.getHorario().atZone(ZoneOffset.UTC));
+			YearMonth mesEAno = YearMonth.from(pedidoGeral.getMomentoPagamento().atZone(ZoneOffset.UTC));
 			if (pedidoGeral.getProfissional().getId() == profissionalId 
 					&& mesEAno.getYear() == ano
 					&& mesEAno.getMonthValue() == mes

@@ -63,8 +63,8 @@ public class Pedido implements Serializable {
 
 	}
 
-	public Pedido(Long id, Instant horario, String descricao, Cliente cliente, Profissional profissional,
-			List<Produto> produtos, Double valorTotal, Double comissao, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento) {
+	public Pedido(Long id, Instant horario, String descricao, Cliente cliente, Profissional profissional, List<Produto> produtos
+			, Double valorTotal, Double comissao, PagamentoStatus pagamentoStatus, FormaPagamento formaPagamento, Instant momentoPagamento) {
 		super();
 		this.id = id;
 		this.horario = horario;
@@ -76,6 +76,7 @@ public class Pedido implements Serializable {
 		this.comissao = comissao;
 		setPagamentoStatus(pagamentoStatus);
 		setFormaPagamento(formaPagamento);
+		this.momentoPagamento = momentoPagamento;
 	}
 
 	public Long getId() {

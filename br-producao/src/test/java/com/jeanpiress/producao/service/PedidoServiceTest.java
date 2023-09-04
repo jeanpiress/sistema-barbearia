@@ -85,10 +85,10 @@ public class PedidoServiceTest {
 		
 		cliente = new Cliente(1L, "Carol", null, null, dia24, null, 30, null, null, null);
 		profissional = new Profissional(1L, "Jean", "(34) 999708382", null, null, null);
-		pedido = new Pedido(1L, dia23, "Corte", cliente, profissional, produtos, 0.0, 22.5, PagamentoStatus.APAGAR, FormaPagamento.ESPERANDO);
-		pedido2 = new Pedido(2L, dia23, "Corte e barba", cliente, profissional, variosProdutos,45.0, 0.0, PagamentoStatus.APAGAR, FormaPagamento.ESPERANDO);
-		pedido3 = new Pedido(3L, dia24, "Corte e barba", cliente, profissional, variosProdutos, 0.0, 45.0, PagamentoStatus.APAGAR, FormaPagamento.ESPERANDO);
-		pedidoAlterado = new Pedido(1L, null, "Corte e barba", cliente, null, produtos, null, 22.5, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedido = new Pedido(1L, dia23, "Corte", cliente, profissional, produtos, 0.0, 22.5, PagamentoStatus.PAGO, FormaPagamento.ESPERANDO, dia23);
+		pedido2 = new Pedido(2L, dia23, "Corte e barba", cliente, profissional, variosProdutos,45.0, 0.0, PagamentoStatus.PAGO, FormaPagamento.ESPERANDO, dia23);
+		pedido3 = new Pedido(3L, dia24, "Corte e barba", cliente, profissional, variosProdutos, 0.0, 45.0, PagamentoStatus.PAGO, FormaPagamento.ESPERANDO, dia24);
+		pedidoAlterado = new Pedido(1L, null, "Corte e barba", cliente, null, produtos, null, 22.5, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO, dia23);
 		corte = new Produto(1L, "corte", 45.0, null, 50.0, false, null, null);
 		barba = new Produto(2L, "barba", 45.0, null, 50.0, false, null, null);
 		

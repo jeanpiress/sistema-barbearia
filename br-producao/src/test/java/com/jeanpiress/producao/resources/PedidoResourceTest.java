@@ -64,9 +64,9 @@ public class PedidoResourceTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
 		
-		pedido = new Pedido(1L, horario, "corte", null, null, null, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedido = new Pedido(1L, horario, "corte", null, null, null, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO, horario);
 		
-		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO);
+		pedidoProduto = new Pedido(1L, null, "corte", null, null, produtos, null, null, PagamentoStatus.PAGO, FormaPagamento.DINHEIRO, horario);
 		
 		produtos.add(produto);
 		
