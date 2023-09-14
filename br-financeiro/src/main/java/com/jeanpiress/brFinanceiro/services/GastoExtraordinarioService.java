@@ -49,7 +49,6 @@ public class GastoExtraordinarioService {
 
 
 	private void update(GastoExtraordinario base, GastoExtraordinario alterado) {
-		base.setCredor(alterado.getCredor());
 		base.setValor(alterado.getValor());
 		base.setDataPagamento(alterado.getDataPagamento());
 		

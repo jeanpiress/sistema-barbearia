@@ -36,6 +36,12 @@ public class ClienteResource {
 		return ResponseEntity.ok(cliente);
 	}
 	
+	@GetMapping(value = "/nome/{nome}")
+	ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable String nome){
+		List<Cliente> clientes = service.buscarPorNome(nome.toUpperCase());
+		return ResponseEntity.ok(clientes);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Cliente> salvar(@RequestBody Cliente obj){
 		Cliente cliente = service.cadastrar(obj);

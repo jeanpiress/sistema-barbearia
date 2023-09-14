@@ -19,7 +19,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.jeanpiress.brFinanceiro.entities.Credor;
 import com.jeanpiress.brFinanceiro.entities.GastoExtraordinario;
 import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 import com.jeanpiress.brFinanceiro.repositories.GastoExtraordinarioRepository;
@@ -40,8 +39,6 @@ public class GastoExtraordinarioServiceTest {
 
 	GastoExtraordinario gastoExtraordinarioAlterado;
 	
-	Credor loreal;
-	
 	Instant dataPagamento;
 
 	Instant dataPagamentoPassada;
@@ -51,12 +48,11 @@ public class GastoExtraordinarioServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		loreal = new Credor(1L, "loreal", "produtos");
 		dataPagamento = Instant.parse("2023-08-28T00:00:00Z");
 		dataPagamentoPassada = Instant.parse("2023-07-28T00:00:00Z");
-		gastoExtraordinario = new GastoExtraordinario(1L, loreal, 350.0, dataPagamento, PagamentoStatus.APAGAR);
-		gastoExtraordinario2 = new GastoExtraordinario(2L, loreal, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
-		gastoExtraordinarioAlterado = new GastoExtraordinario(1L, loreal, 380.0, dataPagamento, PagamentoStatus.APAGAR);
+		gastoExtraordinario = new GastoExtraordinario(1L, 350.0, dataPagamento, PagamentoStatus.APAGAR);
+		gastoExtraordinario2 = new GastoExtraordinario(2L, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
+		gastoExtraordinarioAlterado = new GastoExtraordinario(1L, 380.0, dataPagamento, PagamentoStatus.APAGAR);
 		
 		gastosEstraordinarios.add(gastoExtraordinario);
 		gastosEstraordinarios.add(gastoExtraordinario2);

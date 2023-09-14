@@ -19,7 +19,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.jeanpiress.brFinanceiro.entities.Credor;
 import com.jeanpiress.brFinanceiro.entities.GastoFixo;
 import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 import com.jeanpiress.brFinanceiro.repositories.GastoFixoRepository;
@@ -42,8 +41,6 @@ public class GastoFixoServiceTest {
 
 	GastoFixo gastoFixoAlterado;
 	
-	Credor credor;
-	
 	List<GastoFixo> gastosFixos = new ArrayList<>();
 	
 	Instant dataFutura;
@@ -56,11 +53,10 @@ public class GastoFixoServiceTest {
 		MockitoAnnotations.openMocks(this);
 		dataFutura = Instant.parse("2023-08-28T00:00:00Z");
 		dataPassada = Instant.parse("2023-07-28T00:00:00Z");
-		credor = new Credor(1L, "Imobiliaria", "Aluguel");
-		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, credor, "Aluguel", dataFutura, true, PagamentoStatus.APAGAR);
-		gastoFixo2 = new GastoFixo(2L, "Energia", 3870.0, credor, "Energia", dataFutura, true, PagamentoStatus.APAGAR);
-		gastoFixo3 = new GastoFixo(3L, "Energia", 3870.0, credor, "Energia", dataPassada, true, PagamentoStatus.PAGO);
-		gastoFixoAlterado = new GastoFixo(1L, "Aluguel", 4000.0, credor, "Aluguel do imovel", dataFutura, true, PagamentoStatus.APAGAR);
+		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, "Aluguel", dataFutura, true, PagamentoStatus.APAGAR, 23);
+		gastoFixo2 = new GastoFixo(2L, "Energia", 3870.0, "Energia", dataFutura, true, PagamentoStatus.APAGAR, 23);
+		gastoFixo3 = new GastoFixo(3L, "Energia", 3870.0, "Energia", dataPassada, true, PagamentoStatus.PAGO, 23);
+		gastoFixoAlterado = new GastoFixo(1L, "Aluguel", 4000.0, "Aluguel do imovel", dataFutura, true, PagamentoStatus.APAGAR, 23);
 		
 		gastosFixos.add(gastoFixo);
 		gastosFixos.add(gastoFixo2);
@@ -136,7 +132,7 @@ public class GastoFixoServiceTest {
 	public void DeveBuscarGastosDoMes() {
 		Mockito.when(service.buscar()).thenReturn(gastosFixos);
 		
-		List<GastoFixo> gastosMes = service.buscarTodosGastosFixosPorMes(2023, 8);
+		List<GastoFixo> gastosMes = service.buscarTodosGastosFixosAtivosMes(2023, 8);
 		
 		Assertions.assertTrue(gastosMes.contains(gastoFixo));
 		Assertions.assertTrue(gastosMes.contains(gastoFixo2));

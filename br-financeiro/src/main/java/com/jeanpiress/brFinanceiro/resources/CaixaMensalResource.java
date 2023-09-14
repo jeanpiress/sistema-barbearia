@@ -24,4 +24,11 @@ public class CaixaMensalResource {
 		
 		return ResponseEntity.ok(caixaMensal);
 	}
+	
+	@GetMapping
+	ResponseEntity<CaixaMensal> CaixaMensalMesAtual(){
+		CaixaMensal caixaMensal = service.buscarCaixaMensalMesAtual();
+		
+		return ResponseEntity.ok(caixaMensal);
+	}
 }

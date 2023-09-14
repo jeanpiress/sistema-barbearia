@@ -75,11 +75,11 @@ public class CaixaMensalServiceTest {
 				
 		salarioJean = new Salario("Jean", 0.0, 200.0);
 		
-		gastoExtraordinario = new GastoExtraordinario(1L, null, 10.0, horario, PagamentoStatus.APAGAR);
+		gastoExtraordinario = new GastoExtraordinario(1L, 10.0, horario, PagamentoStatus.APAGAR);
 		
-		boleto = new Boleto(1L, null, 10.0, horario, PagamentoStatus.APAGAR);
+		boleto = new Boleto(1L, 10.0, horario, PagamentoStatus.APAGAR);
 		
-		gastoFixo = new GastoFixo(1L, "agua", 30.0, null, "Agua", horario, true, PagamentoStatus.APAGAR);
+		gastoFixo = new GastoFixo(1L, "agua", 30.0, "Agua", horario, true, PagamentoStatus.APAGAR, 23);
 			
 		ano = 2020;
 		
@@ -98,7 +98,7 @@ public class CaixaMensalServiceTest {
 		Mockito.when(relatorioService.salarioTodosProfissionaisMes(ano, mes)).thenReturn(Collections.singletonList(salarioJean));
 		Mockito.when(gastoExtraodinarioService.buscarTodosGastosPorMes(ano, mes)).thenReturn(Collections.singletonList(gastoExtraordinario));
 		Mockito.when(boletoService.buscarTodosBoletosPorMes(ano, mes)).thenReturn(Collections.singletonList(boleto));
-		Mockito.when(gastoFixosService.buscarTodosGastosFixosPorMes(ano, mes)).thenReturn(Collections.singletonList(gastoFixo));
+		Mockito.when(gastoFixosService.buscarTodosGastosFixosAtivosMes(ano, mes)).thenReturn(Collections.singletonList(gastoFixo));
 		
 		CaixaMensal caixaMensal = service.buscarCaixaMensalPorMes(ano, mes);
 		
@@ -113,7 +113,7 @@ public class CaixaMensalServiceTest {
 		verify(relatorioService).salarioTodosProfissionaisMes(ano, mes);
 		verify(gastoExtraodinarioService).buscarTodosGastosPorMes(ano, mes);
 		verify(boletoService).buscarTodosBoletosPorMes(ano, mes);
-		verify(gastoFixosService).buscarTodosGastosFixosPorMes(ano, mes);
+		verify(gastoFixosService).buscarTodosGastosFixosAtivosMes(ano, mes);
 		verifyNoMoreInteractions(relatorioService, gastoExtraodinarioService, boletoService, gastoFixosService);
 		
 		

@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.jeanpiress.brFinanceiro.entities.Boleto;
-import com.jeanpiress.brFinanceiro.entities.Credor;
 import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 import com.jeanpiress.brFinanceiro.repositories.BoletoRepository;
 import com.jeanpiress.brFinanceiro.services.BoletoService;
@@ -40,8 +39,6 @@ public class BoletoServiceTest {
 
 	Boleto boletoAlterado;
 	
-	Credor loreal;
-	
 	Instant dataPagamentoAtual;
 	
 	Instant dataPagamentoPassada;
@@ -51,12 +48,11 @@ public class BoletoServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		loreal = new Credor(1L, "loreal", "produtos");
 		dataPagamentoAtual = Instant.parse("2023-08-28T00:00:00Z");
 		dataPagamentoPassada = Instant.parse("2023-07-28T00:00:00Z");
-		boleto = new Boleto(1L, loreal, 350.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
-		boleto2 = new Boleto(2L, loreal, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
-		boletoAlterado = new Boleto(1L, loreal, 380.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
+		boleto = new Boleto(1L, 350.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
+		boleto2 = new Boleto(2L, 350.0, dataPagamentoPassada, PagamentoStatus.PAGO);
+		boletoAlterado = new Boleto(1L, 380.0, dataPagamentoAtual, PagamentoStatus.APAGAR);
 		
 		boletos.add(boleto);
 		boletos.add(boleto2);

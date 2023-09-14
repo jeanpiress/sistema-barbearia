@@ -29,7 +29,6 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -40,6 +39,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-bean-validation -->
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-bean-validation</artifactId>
+			<version>29.0.1.Final</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

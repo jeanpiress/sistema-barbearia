@@ -23,30 +23,31 @@ public class GastoFixo {
 	
 	private Double valor;
 	
-	private Credor credor;
-	
 	private String motivo;
 	
-	private Instant diaVencimento;
+	private Instant dataVencimento;
 	
 	private boolean ativo;
 	
 	private Integer pagamentoStatus;
+	
+	private Integer diaVencimentoRecorrente;
 
 	public GastoFixo() {
 		
 	}
 	
-	public GastoFixo(Long id, String nome, Double valor, Credor credor, String motivo, Instant diaVencimento, boolean ativo, PagamentoStatus pagamentoStatus) {
+	public GastoFixo(Long id, String nome, Double valor, String motivo, Instant diaVencimento, boolean ativo, 
+			PagamentoStatus pagamentoStatus, Integer diaVencimentoRecorrente) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.valor = valor;
-		this.credor = credor;
 		this.motivo = motivo;
-		this.diaVencimento = diaVencimento;
+		this.dataVencimento = diaVencimento;
 		this.ativo = ativo;
 		setPagamentoStatus(pagamentoStatus);
+		this.diaVencimentoRecorrente = diaVencimentoRecorrente;
 	}
 
 	public Long getId() {
@@ -74,14 +75,6 @@ public class GastoFixo {
 		this.valor = valor;
 	}
 
-	public Credor getCredor() {
-		return credor;
-	}
-
-	public void setCredor(Credor credor) {
-		this.credor = credor;
-	}
-
 	public String getMotivo() {
 		return motivo;
 	}
@@ -91,11 +84,11 @@ public class GastoFixo {
 	}
 
 	public Instant getDiaVencimento() {
-		return diaVencimento;
+		return dataVencimento;
 	}
 
 	public void setDiaVencimento(Instant diaVencimento) {
-		this.diaVencimento = diaVencimento;
+		this.dataVencimento = diaVencimento;
 	}
 
 	public boolean isAtivo() {
@@ -114,6 +107,14 @@ public class GastoFixo {
 		if(pagamentoStatus != null) {
 		this.pagamentoStatus = pagamentoStatus.getCode();
 		}
+	}
+	
+	public Integer getDiaVencimentoRecorrente() {
+		return diaVencimentoRecorrente;
+	}
+
+	public void setDiaVencimentoRecorrente(Integer diaVencimentoRecorrente) {
+		this.diaVencimentoRecorrente = diaVencimentoRecorrente;
 	}
 
 	@Override

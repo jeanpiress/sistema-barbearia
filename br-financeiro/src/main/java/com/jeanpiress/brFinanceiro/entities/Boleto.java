@@ -21,8 +21,6 @@ public class Boleto implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Credor credor;
-	
 	private Double valor;
 	
 	private Instant dataPagamento;
@@ -34,10 +32,9 @@ public class Boleto implements Serializable{
 		
 	}
 	
-	public Boleto(Long id, Credor credor, Double valor, Instant dataPagamento, PagamentoStatus pagamentoStatus) {
+	public Boleto(Long id, Double valor, Instant dataPagamento, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
-		this.credor = credor;
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
 		setPagamentoStatus(pagamentoStatus);
@@ -52,14 +49,6 @@ public class Boleto implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Credor getCredor() {
-		return credor;
-	}
-
-	public void setCredor(Credor credor) {
-		this.credor = credor;
 	}
 
 	public Double getValor() {

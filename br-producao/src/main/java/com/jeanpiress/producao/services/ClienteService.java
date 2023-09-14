@@ -30,6 +30,10 @@ public class ClienteService {
 		return cliente;
 	}
 
+	public List<Cliente> buscarPorNome(String nome) {
+		List<Cliente> clientes = repository.buscarPorNome(nome);
+		return clientes;
+	}
 
 
 	public Cliente cadastrar(Cliente obj) {
@@ -61,6 +65,7 @@ public class ClienteService {
 	
 	public void deletar(Long id) {
 		repository.deleteById(id);
+				
 	}
 	
 	

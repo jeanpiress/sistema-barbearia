@@ -103,7 +103,6 @@ public class ClienteResourceTest {
 
 	}
 	
-	
 	@Test
 	public void deveDarErroAoCadastrarSemInformarOCliente() throws Exception {
 				

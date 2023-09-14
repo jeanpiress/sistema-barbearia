@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -31,14 +32,17 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	private Instant horario;
 	private String descricao;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Cliente cliente;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "profissional_id")
 	@LazyCollection(LazyCollectionOption.FALSE)

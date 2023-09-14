@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jeanpiress.brFinanceiro.entities.GastoExtraordinario;
-import com.jeanpiress.brFinanceiro.entities.Credor;
 import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 import com.jeanpiress.brFinanceiro.services.GastoExtraordinarioService;
 
@@ -46,8 +45,6 @@ public class GastoExtraordinarioResourceTest {
 	
 	GastoExtraordinario gastoExtraordinario;
 	
-	Credor loreal;
-	
 	Instant dataPagamento;
 	
 	ObjectMapper objectMapper;
@@ -58,10 +55,9 @@ public class GastoExtraordinarioResourceTest {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
-		loreal = new Credor(1L, "loreal", "produtos");
 		dataPagamento = Instant.parse("2023-08-28T00:00:00Z");
 		
-		gastoExtraordinario = new GastoExtraordinario(1L, loreal, 350.0, dataPagamento, PagamentoStatus.PAGO);
+		gastoExtraordinario = new GastoExtraordinario(1L, 350.0, dataPagamento, PagamentoStatus.PAGO);
 		
 		objectMapper = new ObjectMapper();
 	    objectMapper.registerModule(new JavaTimeModule());

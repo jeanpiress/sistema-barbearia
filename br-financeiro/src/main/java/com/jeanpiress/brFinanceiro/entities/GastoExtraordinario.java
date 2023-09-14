@@ -21,8 +21,6 @@ public class GastoExtraordinario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Credor credor;
-	
 	private Double valor;
 	
 	private Instant dataPagamento;
@@ -34,10 +32,9 @@ public class GastoExtraordinario implements Serializable{
 		
 	}
 	
-	public GastoExtraordinario(Long id, Credor credor, Double valor, Instant dataPagamento, PagamentoStatus pagamentoStatus) {
+	public GastoExtraordinario(Long id, Double valor, Instant dataPagamento, PagamentoStatus pagamentoStatus) {
 		super();
 		this.id = id;
-		this.credor = credor;
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
 		setPagamentoStatus(pagamentoStatus);
@@ -49,14 +46,6 @@ public class GastoExtraordinario implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Credor getCredor() {
-		return credor;
-	}
-
-	public void setCredor(Credor credor) {
-		this.credor = credor;
 	}
 
 	public Double getValor() {

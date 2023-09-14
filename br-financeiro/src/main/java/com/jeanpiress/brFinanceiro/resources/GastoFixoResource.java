@@ -55,4 +55,13 @@ public class GastoFixoResource {
 		service.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@PutMapping(value = "/{id}/desativar")
+	ResponseEntity<GastoFixo> desativar(@PathVariable Long id){
+		service.desativarGastoFixo(id);
+		return ResponseEntity.noContent().build();
+	}
+
+
 }
+

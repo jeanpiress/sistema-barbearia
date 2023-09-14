@@ -27,7 +27,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jeanpiress.brFinanceiro.entities.Credor;
 import com.jeanpiress.brFinanceiro.entities.GastoFixo;
 import com.jeanpiress.brFinanceiro.enums.PagamentoStatus;
 import com.jeanpiress.brFinanceiro.services.GastoFixoService;
@@ -45,8 +44,7 @@ public class GastoFixoResourceTest {
 	
 	GastoFixo gastoFixo;
 	
-	Credor imobiliaria;
-	
+		
 	ObjectMapper objectMapper;
 	
 
@@ -55,9 +53,8 @@ public class GastoFixoResourceTest {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(resource).alwaysDo(print()).build();
-		imobiliaria = new Credor(1L, "imobiliaria", "aluguel");
-			
-		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, imobiliaria, "aluguel", null, true, PagamentoStatus.APAGAR);
+					
+		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, "aluguel", null, true, PagamentoStatus.APAGAR, 23);
 		
 		objectMapper = new ObjectMapper();
 	    objectMapper.registerModule(new JavaTimeModule());

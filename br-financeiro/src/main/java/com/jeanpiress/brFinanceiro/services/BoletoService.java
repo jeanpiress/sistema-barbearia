@@ -49,7 +49,6 @@ public class BoletoService {
 
 
 	private void update(Boleto base, Boleto alterado) {
-		base.setCredor(alterado.getCredor());
 		base.setValor(alterado.getValor());
 		base.setDataPagamento(alterado.getDataPagamento());
 		

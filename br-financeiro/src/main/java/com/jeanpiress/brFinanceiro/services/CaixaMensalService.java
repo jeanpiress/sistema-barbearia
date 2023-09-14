@@ -1,5 +1,8 @@
 package com.jeanpiress.brFinanceiro.services;
 
+import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,8 @@ public class CaixaMensalService {
 		List<Salario> salarios = relatorioService.salarioTodosProfissionaisMes(ano, mes);
 		List<GastoExtraordinario> gastosExtraordinarios = gastoExtraodinarioService.buscarTodosGastosPorMes(ano, mes);
 		List<Boleto> boletos = boletoService.buscarTodosBoletosPorMes(ano, mes);
-		List<GastoFixo> gastosFixos = gastoFixosService.buscarTodosGastosFixosPorMes(ano, mes);
+		gastoFixosService.gerarGastoFixoMes();
+		List<GastoFixo> gastosFixos = gastoFixosService.buscarTodosGastosFixosAtivosMes(ano, mes);
 		Double lucro = calculoLucro(faturamento, salarios, gastosExtraordinarios, boletos, gastosFixos);
 
 		CaixaMensal caixaMensal = new CaixaMensal(faturamento, salarios, boletos, gastosExtraordinarios, gastosFixos,
@@ -40,6 +44,28 @@ public class CaixaMensalService {
 		return caixaMensal;
 	}
 
+
+	public CaixaMensal buscarCaixaMensalMesAtual() {
+		Instant agora = Instant.now();
+		YearMonth mesEAno = YearMonth.from(agora.atZone(ZoneOffset.UTC));
+		Integer ano = mesEAno.getYear();
+		Integer mes = mesEAno.getMonthValue();
+		
+		Double faturamento = relatorioService.faturamentoPorMes(ano, mes);
+		List<Salario> salarios = relatorioService.salarioTodosProfissionaisMes(ano, mes);
+		List<GastoExtraordinario> gastosExtraordinarios = gastoExtraodinarioService.buscarTodosGastosPorMes(ano, mes);
+		List<Boleto> boletos = boletoService.buscarTodosBoletosPorMes(ano, mes);
+		gastoFixosService.gerarGastoFixoMes();
+		List<GastoFixo> gastosFixos = gastoFixosService.buscarTodosGastosFixosAtivosMes(ano, mes);
+		Double lucro = calculoLucro(faturamento, salarios, gastosExtraordinarios, boletos, gastosFixos);
+
+		CaixaMensal caixaMensal = new CaixaMensal(faturamento, salarios, boletos, gastosExtraordinarios, gastosFixos,
+				lucro);
+
+		return caixaMensal;
+	}
+	
+	
 	public Double calculoLucro(Double faturamento, List<Salario> salarios,
 			List<GastoExtraordinario> gastosExtraordinarios, List<Boleto> boletos, List<GastoFixo> gastosFixos) {
 		Double lucro = faturamento;
