@@ -43,6 +43,8 @@ public class GastoFixoServiceTest {
 	
 	List<GastoFixo> gastosFixos = new ArrayList<>();
 	
+	List<GastoFixo> gastosFixosMesPassado = new ArrayList<>();
+	
 	Instant dataFutura;
 	
 	Instant dataPassada;
@@ -51,8 +53,8 @@ public class GastoFixoServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		dataFutura = Instant.parse("2023-08-28T00:00:00Z");
-		dataPassada = Instant.parse("2023-07-28T00:00:00Z");
+		dataFutura = Instant.parse("2023-09-28T00:00:00Z");
+		dataPassada = Instant.parse("2023-08-17T00:00:00Z");
 		gastoFixo = new GastoFixo(1L, "Aluguel", 3870.0, "Aluguel", dataFutura, true, PagamentoStatus.APAGAR, 23);
 		gastoFixo2 = new GastoFixo(2L, "Energia", 3870.0, "Energia", dataFutura, true, PagamentoStatus.APAGAR, 23);
 		gastoFixo3 = new GastoFixo(3L, "Energia", 3870.0, "Energia", dataPassada, true, PagamentoStatus.PAGO, 23);
@@ -61,6 +63,8 @@ public class GastoFixoServiceTest {
 		gastosFixos.add(gastoFixo);
 		gastosFixos.add(gastoFixo2);
 		gastosFixos.add(gastoFixo3);
+		
+		gastosFixosMesPassado.add(gastoFixo3);
 		
 
 	}
@@ -129,10 +133,10 @@ public class GastoFixoServiceTest {
 	}
 	
 	@Test
-	public void DeveBuscarGastosDoMes() {
+	public void deveBuscarGastosDoMes() {
 		Mockito.when(service.buscar()).thenReturn(gastosFixos);
 		
-		List<GastoFixo> gastosMes = service.buscarTodosGastosFixosAtivosMes(2023, 8);
+		List<GastoFixo> gastosMes = service.buscarTodosGastosFixosAtivosMes(2023, 9);
 		
 		Assertions.assertTrue(gastosMes.contains(gastoFixo));
 		Assertions.assertTrue(gastosMes.contains(gastoFixo2));
@@ -143,4 +147,34 @@ public class GastoFixoServiceTest {
 		
 	}
 
+	
+	@Test
+	public void naoDeveGerarGastoFixoMesPoisJaEstaoAtuais() {
+		Mockito.when(service.buscar()).thenReturn(gastosFixos);
+		
+		service.gerarGastoFixoMes();
+						
+	}
+	
+	@Test
+	public void deveGerarGastoFixoMesPoisJaEstaoDesatualizados() {
+		Mockito.when(service.buscar()).thenReturn(gastosFixosMesPassado);
+		
+		service.gerarGastoFixoMes();
+						
+	}
+	
+	@Test
+	public void deveDesativarGastoFixoPorId() {
+		Mockito.when(repository.getReferenceById(1L)).thenReturn(gastoFixo);
+		
+		service.desativarGastoFixo(1L);
+		
+		Assertions.assertFalse(gastoFixo.isAtivo());
+		
+		verify(repository).getReferenceById(1L);
+		verify(repository).save(gastoFixo);
+		verifyNoMoreInteractions(repository);
+	}
+	
 }

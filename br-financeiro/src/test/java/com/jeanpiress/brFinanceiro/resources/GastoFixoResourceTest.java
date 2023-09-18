@@ -197,4 +197,18 @@ public class GastoFixoResourceTest {
 
 	}
 	
+	@Test
+	public void deveDesativarUmGastoFixoInformandoId() throws Exception {
+		Mockito.when(service.alterar(1L, gastoFixo)).thenReturn(gastoFixo);
+		
+		mockMvc.perform(put("/gastosFixos/1/desativar"))
+				.andExpect(MockMvcResultMatchers.status().isNoContent())
+				.andReturn();
+		
+		verify(service).desativarGastoFixo(1L);
+		verifyNoMoreInteractions(service);
+		
+
+	}
+	
 }

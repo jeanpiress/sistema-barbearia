@@ -12,8 +12,8 @@ import com.jeanpiress.brFinanceiro.services.RelatorioService;
 
 
 @RestController
-@RequestMapping(value = "/salarios")
-public class SalarioResource {
+@RequestMapping(value = "/relatorios")
+public class RelatorioResource {
 
 	@Autowired
 	RelatorioService service;
