@@ -1,5 +1,7 @@
 package com.jeanpiress.producao.entities.enums;
 
+import com.jeanpiress.producao.resources.exceptions.StatusPagamentoInvalidaException;
+
 public enum PagamentoStatus {
 
 	APAGAR(1), 
@@ -24,6 +26,6 @@ public enum PagamentoStatus {
 				return valor;
 			}
 		}
-		throw new IllegalArgumentException("Status de pagamento invalido");
+		throw new StatusPagamentoInvalidaException();
 	}
 }

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,23 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler{
 		String mensagemDesenvolvedor = ex.toString();
 		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+	@ExceptionHandler({ConstraintViolationException.class})
+	public ResponseEntity<Object> handleErroIncersaoCampoNull(ConstraintViolationException ex,
+			WebRequest request) {
+		String mensagemUsuario = "recurso não pode ser nulo";
+		String mensagemDesenvolvedor = ex.toString();
+		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+	
+	@ExceptionHandler({PSQLException.class})
+	public ResponseEntity<Object> handleErroApagarRecursoEmUso(PSQLException ex,
+			WebRequest request) {
+		String mensagemUsuario = "recurso não pode ser deletado";
+		String mensagemDesenvolvedor = ex.toString();
+		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 	
 	

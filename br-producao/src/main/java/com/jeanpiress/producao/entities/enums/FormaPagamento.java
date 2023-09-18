@@ -1,5 +1,7 @@
 package com.jeanpiress.producao.entities.enums;
 
+import com.jeanpiress.producao.resources.exceptions.FormaPagamentoInvalidaException;
+
 public enum FormaPagamento {
 
 	DINHEIRO(1), 
@@ -25,6 +27,6 @@ public enum FormaPagamento {
 				return valor;
 			}
 		}
-		throw new IllegalArgumentException("Forma de pagamento invalido");
+		throw new FormaPagamentoInvalidaException();
 	}
 }

@@ -42,6 +42,8 @@ public class ClienteResourceTest {
 	
 	Cliente cliente;
 	
+	String nome;
+	
 
 
 	@BeforeEach
@@ -51,6 +53,7 @@ public class ClienteResourceTest {
 		
 		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
 		
+		nome = "CAROL";
 		
 	}
 
@@ -184,6 +187,21 @@ public class ClienteResourceTest {
 				.andReturn();
 		
 		verifyNoInteractions(service);
+		
+
+	}
+	
+	@Test
+	public void deveBuscarClientePorNomeEmJson() throws Exception {
+		Mockito.when(service.buscarPorNome(nome)).thenReturn(Collections.singletonList(cliente));
+
+		mockMvc.perform(get("/clientes/nome/carol")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+		
+		verify(service).buscarPorNome(nome);
+		verifyNoMoreInteractions(service);
 		
 
 	}

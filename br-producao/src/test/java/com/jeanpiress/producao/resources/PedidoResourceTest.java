@@ -57,6 +57,7 @@ public class PedidoResourceTest {
 	
 	Instant horario;
 	
+	
 
 
 	@BeforeEach
@@ -75,6 +76,8 @@ public class PedidoResourceTest {
 		fim = "2023:08:28";
 		
 		horario = Instant.parse("2023-08-28T00:00:00Z");
+		
+		
 		
 		
 	}
@@ -300,7 +303,25 @@ public class PedidoResourceTest {
 		verifyNoMoreInteractions(service);
 	}
 	
+	@Test
+	public void deveAdiconarUmPagamento() throws Exception{
+		mockMvc.perform(put("/pedidos/1/forma/1/pagar")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+		
+		verify(service).pagamentoPedido(1L, 1);
+		verifyNoMoreInteractions(service);
+	}
 	
-	
-	
+	@Test
+	public void deveBuscarComissaoProfissionalPorMes() throws Exception{
+		mockMvc.perform(get("/pedidos/profissional/1/ano/2023/mes/8/comissao")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+		
+		verify(service).comissaoPagaProfissionalMes(1L, 2023, 8);
+		verifyNoMoreInteractions(service);
+	}
 }

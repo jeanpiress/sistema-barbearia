@@ -17,8 +17,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.jeanpiress.producao.entities.CategoriaProduto;
 import com.jeanpiress.producao.entities.Produto;
 import com.jeanpiress.producao.repository.ProdutoRepository;
+import com.jeanpiress.producao.services.CategoriaProdutoService;
 import com.jeanpiress.producao.services.ProdutoService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,17 +31,22 @@ public class ProdutoServiceTest {
 
 	@Mock
 	ProdutoRepository repository;
+	
+	@Mock
+	CategoriaProdutoService categoriaService;
 
 	Produto corte;
 
 	Produto corteAlterado;
+	
+	CategoriaProduto categoria;
 
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		corte = new Produto(1L, "Corte", 45.0, 0.0, 50.0, false, null, null);
 		corteAlterado = new Produto(1L, "Corte maquina", 35.0, 0.0, 50.0, false, null, null);
-
+		categoria = new CategoriaProduto(1L, "cabelo", null);
 	}
 
 	@Test
@@ -101,6 +108,21 @@ public class ProdutoServiceTest {
 
 		verify(repository).deleteById(1L);
 		verifyNoMoreInteractions(repository);
+	}
+	
+	@Test
+	public void deveAdicionarCategoriaAUmProduto() {
+		Mockito.when(repository.findById(1L)).thenReturn(Optional.ofNullable(corte));
+		Mockito.when(categoriaService.buscarPorId(1L)).thenReturn(Optional.ofNullable(categoria));
+		
+		service.adicionarCategoria(1L, 1L);
+		
+		Assertions.assertEquals(corte.getCategoria(), categoria);
+		
+		verify(repository).findById(1L);
+		verify(repository).save(corte);
+		verify(categoriaService).buscarPorId(1L);
+		verifyNoMoreInteractions(repository, categoriaService);
 	}
 
 }

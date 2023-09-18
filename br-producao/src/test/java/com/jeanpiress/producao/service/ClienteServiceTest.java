@@ -3,6 +3,7 @@ package com.jeanpiress.producao.service;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,15 +36,24 @@ public class ClienteServiceTest {
 	
 	Cliente clienteAlterado;
 	
+	String nome;
+	
 	List<Cliente> clientes = new ArrayList<>();
+	
+	Instant previsaoRestorno;
+	
+	Instant ultimaVisita;
 
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		cliente = new Cliente(1L, "Carol", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
-		clienteAlterado = new Cliente(null, "Carolina", "(34)999708382", null, null, 100, 30, null, "cabelo cacheado", null);
-				
+		ultimaVisita = Instant.parse("2023-09-15T00:00:00.000Z");
+		previsaoRestorno = Instant.parse("2023-10-15T00:00:00.000Z");
+		cliente = new Cliente(1L, "Carol", "(34)999708382", null, ultimaVisita, 100, 30, null, "cabelo cacheado", null);
+		clienteAlterado = new Cliente(null, "Carolina", "(34)999708382", null, ultimaVisita, 100, 30, null, "cabelo cacheado", null);
+		nome = "carol";		
 		clientes.add(cliente);
+		
 		
 		
 		
@@ -112,4 +122,27 @@ public class ClienteServiceTest {
 		verifyNoMoreInteractions(repository);
 }
 
+	@Test
+	public void deveBuscarClientePorNome() {
+		Mockito.when(repository.buscarPorNome(nome)).thenReturn(Collections.singletonList(cliente));
+		
+		List<Cliente> clientes = service.buscarPorNome(nome);
+		
+		Assertions.assertEquals(clientes.get(0).getNome(), cliente.getNome());
+		
+		verify(repository).buscarPorNome(nome);
+		verifyNoMoreInteractions(repository);
+	}
+	
+	@Test
+	public void deveAtualizarPrevisaoRestorno() {
+		Mockito.when(repository.getReferenceById(1L)).thenReturn(cliente);
+		
+		Instant retorno = service.atualizarPrevisaoRetorno(1L);
+		
+		Assertions.assertEquals(retorno, previsaoRestorno);
+		
+		verify(repository).getReferenceById(1L);
+		verifyNoMoreInteractions(repository);
+	}
 }

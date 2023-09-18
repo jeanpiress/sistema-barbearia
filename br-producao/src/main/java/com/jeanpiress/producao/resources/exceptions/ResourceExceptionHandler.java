@@ -42,7 +42,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler({EmptyResultDataAccessException.class})
 	public ResponseEntity<Object> handleErroDeleteRecursoNaoEncontrado(EmptyResultDataAccessException ex,
 			WebRequest request) {
-		String mensagemUsuario = "recurso não existe";
+		String mensagemUsuario = "recurso não encontrado";
 		String mensagemDesenvolvedor = ex.toString();
 		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
@@ -61,6 +61,15 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> handleErroApagarRecursoEmUso(PSQLException ex,
 			WebRequest request) {
 		String mensagemUsuario = "recurso não pode ser deletado";
+		String mensagemDesenvolvedor = ex.toString();
+		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	
+	@ExceptionHandler({FormaPagamentoInvalidaException.class})
+	public ResponseEntity<Object> handleFormaPagamentoInvalida(FormaPagamentoInvalidaException ex,
+			WebRequest request) {
+		String mensagemUsuario = "Forma de pagamento invalida";
 		String mensagemDesenvolvedor = ex.toString();
 		List<DescricaoErros> erros = Arrays.asList(new DescricaoErros(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

@@ -87,7 +87,7 @@ public class PedidoResource {
 	}
 	
 	@PutMapping(value = "/{id}/forma/{forma}/pagar")
-	ResponseEntity<Pedido> adicionarProduto(@PathVariable Long id, @PathVariable int forma){
+	ResponseEntity<Pedido> adicionarPagamento(@PathVariable Long id, @PathVariable int forma){
 		Pedido pedido = service.pagamentoPedido(id, forma);
 		return ResponseEntity.ok(pedido);
 	}

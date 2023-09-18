@@ -67,6 +67,8 @@ public class CaixaMensalServiceTest {
 	
 	Instant horario;
 	
+	Instant agoraMock;
+	
 	
 	
 	@BeforeEach
@@ -81,11 +83,13 @@ public class CaixaMensalServiceTest {
 		
 		gastoFixo = new GastoFixo(1L, "agua", 30.0, "Agua", horario, true, PagamentoStatus.APAGAR, 23);
 			
-		ano = 2020;
+		ano = 2023;
 		
-		mes = 8;
+		mes = 9;
 		
 		faturamento = 400.0;
+		
+		agoraMock = Instant.parse("2023-08-05T00:00:00.000Z");
 				
 				
 		
@@ -113,6 +117,7 @@ public class CaixaMensalServiceTest {
 		verify(relatorioService).salarioTodosProfissionaisMes(ano, mes);
 		verify(gastoExtraodinarioService).buscarTodosGastosPorMes(ano, mes);
 		verify(boletoService).buscarTodosBoletosPorMes(ano, mes);
+		verify(gastoFixosService).gerarGastoFixoMes();
 		verify(gastoFixosService).buscarTodosGastosFixosAtivosMes(ano, mes);
 		verifyNoMoreInteractions(relatorioService, gastoExtraodinarioService, boletoService, gastoFixosService);
 		
@@ -127,6 +132,36 @@ public class CaixaMensalServiceTest {
 	
 		Assertions.assertEquals(lucro, 150.0);
 	
+	}
+	
+	@Test
+	public void deveBuscarCaixaMensalMesAtual() {
+		Mockito.when(relatorioService.faturamentoPorMes(ano, mes)).thenReturn(400.0);
+		Mockito.when(relatorioService.salarioTodosProfissionaisMes(ano, mes)).thenReturn(Collections.singletonList(salarioJean));
+		Mockito.when(gastoExtraodinarioService.buscarTodosGastosPorMes(ano, mes)).thenReturn(Collections.singletonList(gastoExtraordinario));
+		Mockito.when(boletoService.buscarTodosBoletosPorMes(ano, mes)).thenReturn(Collections.singletonList(boleto));
+		Mockito.when(gastoFixosService.buscarTodosGastosFixosAtivosMes(ano, mes)).thenReturn(Collections.singletonList(gastoFixo));
+		
+		
+		
+		
+		CaixaMensal caixaMensal = service.buscarCaixaMensalMesAtual();
+		
+		Assertions.assertEquals(caixaMensal.getFaturamento(), faturamento);
+		Assertions.assertEquals(caixaMensal.getSalarios().get(0), salarioJean);
+		Assertions.assertEquals(caixaMensal.getGastosExtraordinarios().get(0), gastoExtraordinario);
+		Assertions.assertEquals(caixaMensal.getBoletos().get(0), boleto);
+		Assertions.assertEquals(caixaMensal.getGastosFixos().get(0), gastoFixo);
+		Assertions.assertEquals(caixaMensal.getLucro(), 150.0);
+		
+		verify(relatorioService).faturamentoPorMes(ano, mes);
+		verify(relatorioService).salarioTodosProfissionaisMes(ano, mes);
+		verify(gastoExtraodinarioService).buscarTodosGastosPorMes(ano, mes);
+		verify(boletoService).buscarTodosBoletosPorMes(ano, mes);
+		verify(gastoFixosService).gerarGastoFixoMes();
+		verify(gastoFixosService).buscarTodosGastosFixosAtivosMes(ano, mes);
+		verifyNoMoreInteractions(relatorioService, gastoExtraodinarioService, boletoService, gastoFixosService);
+		
 	}
 	
 	
