@@ -34,6 +34,7 @@ public class ProfissionalResource {
 	
 	@GetMapping(value = "/{id}")
 	ResponseEntity<Optional<Profissional>> buscarPorId(@PathVariable Long id){
+		
 		Optional<Profissional> profissional = service.buscarPorId(id);
 		return ResponseEntity.ok(profissional);
 	}

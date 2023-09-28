@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanpiress.brFinanceiro.entities.Salario;
 import com.jeanpiress.brFinanceiro.services.RelatorioService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 
 @RestController
@@ -24,9 +25,16 @@ public class RelatorioResource {
 		return ResponseEntity.ok(salario);
 	}
 	
+	@HystrixCommand(fallbackMethod = "salarioProfissionalMesAlternativo")
 	@GetMapping(value = "/profissional/{id}/ano/{ano}/mes/{mes}")
 	public ResponseEntity<Salario> salarioProfissionalMes(@PathVariable Long id, @PathVariable int ano, @PathVariable int mes){
 		Salario salario = service.salarioFuncionarioMes(id, ano, mes);
+		return ResponseEntity.ok(salario);
+	}
+	
+	
+	public ResponseEntity<Salario> salarioProfissionalMesAlternativo(Long id, int ano, int mes){
+		Salario salario = new Salario("Erro", 0.0, 0.0);
 		return ResponseEntity.ok(salario);
 	}
 }
