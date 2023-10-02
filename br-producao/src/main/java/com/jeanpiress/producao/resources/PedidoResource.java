@@ -27,6 +27,7 @@ public class PedidoResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Pedido>> getPedido(){
+		
 		List<Pedido> pedidos = service.buscar();
 		return ResponseEntity.ok(pedidos);
 	}
@@ -76,6 +77,8 @@ public class PedidoResource {
 	
 	@GetMapping(value = "profissional/{profissionalId}/ano/{ano}/mes/{mes}/comissao")
 	ResponseEntity<Double> verificarComissaoProfissionalMes(@PathVariable Long profissionalId, @PathVariable int ano, @PathVariable int mes){
+	
+				
 		Double comissao = service.comissaoPagaProfissionalMes(profissionalId, ano, mes);
 		return ResponseEntity.ok(comissao);
 	}
