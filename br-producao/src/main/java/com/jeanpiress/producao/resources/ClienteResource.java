@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jeanpiress.producao.entities.Cliente;
 import com.jeanpiress.producao.services.ClienteService;
 
+
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteResource {

@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jeanpiress.producao.entities.CategoriaProduto;
 import com.jeanpiress.producao.services.CategoriaProdutoService;
 
+
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaProdutoResource {
 
+	//private static Logger logger = LoggerFactory.getLogger(CategoriaProdutoResource.class); 
+	
+		
 	@Autowired
 	private CategoriaProdutoService service;
+	
 	
 	
 	@GetMapping
